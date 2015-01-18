@@ -1,5 +1,6 @@
 package StrgWar.controller;
 
-public class GameStageController {
+public class GameStageController
+{
 
 }

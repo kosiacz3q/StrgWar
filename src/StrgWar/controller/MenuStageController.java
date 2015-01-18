@@ -1,5 +1,6 @@
 package StrgWar.controller;
 
-public class MenuStageController {
+public class MenuStageController
+{
 
 }
