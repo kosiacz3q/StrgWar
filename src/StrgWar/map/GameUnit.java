@@ -2,9 +2,9 @@ package StrgWar.map;
 
 import StrgWar.core.IUpdateable;
 
-public class Unit implements IUpdateable
+public class GameUnit implements IUpdateable
 {
-	public Unit(int movementSpeed, int roadLength)
+	public GameUnit(int movementSpeed, int roadLength)
 	{
 		_movementSpeed = movementSpeed;
 		_roadLength = roadLength;

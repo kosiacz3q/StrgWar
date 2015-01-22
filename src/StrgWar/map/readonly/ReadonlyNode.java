@@ -1,15 +1,12 @@
-package StrgWar.map;
+package StrgWar.map.readonly;
 
 import java.util.Map;
 
-public class Node extends MapElement
+import StrgWar.map.MapElement;
+import StrgWar.map.MapElementType;
+
+public class ReadonlyNode extends MapElement
 {
-
-	public void StartSendingUnitsTo(String nodeName)
-	{
-
-	}
-
 	@Override
 	public MapElementType GetMapElementType()
 	{
@@ -22,6 +19,6 @@ public class Node extends MapElement
 		// TODO send units to destination
 	}
 
-	protected Map<String, Edge> cityNameToRouteMap;
+	protected Map<String, ReadonlyEdge> cityNameToRouteMap;
 
 }

@@ -9,17 +9,16 @@ import javafx.util.Pair;
 
 public abstract class MapElement implements IMapElementStateGetter, IUpdateable
 {
-
 	public MapElement()
 	{
-		_playerUnitsCount = new HashMap<String, Integer>();
+		_playerToGameUnitsCount = new HashMap<String, Integer>();
 	}
 
 	public ArrayList<Pair<String, Integer>> GetUnits()
 	{
 		ArrayList<Pair<String, Integer>> result = new ArrayList<Pair<String, Integer>>();
 
-		for (Entry<String, Integer> pair : _playerUnitsCount.entrySet())
+		for (Entry<String, Integer> pair : _playerToGameUnitsCount.entrySet())
 		{
 			result.add(new Pair<String, Integer>(new String(pair.getKey()), new Integer(pair.getValue())));
 		}
@@ -28,5 +27,5 @@ public abstract class MapElement implements IMapElementStateGetter, IUpdateable
 
 	}
 
-	protected HashMap<String, Integer> _playerUnitsCount;
+	protected HashMap<String, Integer> _playerToGameUnitsCount;
 }

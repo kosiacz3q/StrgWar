@@ -11,7 +11,6 @@ import javafx.scene.shape.ArcType;
 
 public class GameStage extends StrgWar.stage.Stage
 {
-
 	public GameStage(javafx.stage.Stage primaryStage) throws IOException
 	{
 		_primaryStage = primaryStage;

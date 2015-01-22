@@ -1,6 +1,7 @@
 package StrgWar.controller;
 
-public class GameStageController
+public class GameStageController extends AbstractController
 {
+	
 
 }

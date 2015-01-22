@@ -1,8 +1,10 @@
-package StrgWar.map;
+package StrgWar.map.readonly;
 
-public class Edge extends MapElement
+import StrgWar.map.MapElement;
+import StrgWar.map.MapElementType;
+
+public class ReadonlyEdge extends MapElement
 {
-
 	@Override
 	public MapElementType GetMapElementType()
 	{
