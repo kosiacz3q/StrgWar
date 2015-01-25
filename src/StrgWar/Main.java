@@ -9,6 +9,7 @@ import java.util.logging.SimpleFormatter;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import StrgWar.controller.AbstractController;
 import StrgWar.stage.GameStage;
 import StrgWar.stage.MenuStage;
 import StrgWar.stage.StageManager;
@@ -25,6 +26,8 @@ public class Main extends Application
 			String rootDir = new File(".").getCanonicalPath();
 			File subDir = new File(rootDir, "/resources/maps");
 			File fXmlFile = new File(subDir, "map0.xml");
+			
+			AbstractController.SetStageSetter(_stageManager);
 			
 			_stageManager.RegisterStage(new MenuStage(primaryStage));
 			_stageManager.RegisterStage(new GameStage(primaryStage , fXmlFile.getAbsolutePath()));

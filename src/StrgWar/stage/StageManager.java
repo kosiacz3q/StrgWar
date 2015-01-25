@@ -3,7 +3,7 @@ package StrgWar.stage;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class StageManager
+public class StageManager implements IStageSetter
 {
 	public StageManager() throws IOException
 	{
