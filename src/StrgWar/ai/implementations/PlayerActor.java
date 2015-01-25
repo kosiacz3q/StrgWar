@@ -1,57 +1,60 @@
 package StrgWar.ai.implementations;
-
+import javafx.scene.input.*;
+import javafx.scene.Cursor;
+import javafx.event.EventHandler;
 import StrgWar.ai.AbstractActor;
 import StrgWar.ai.ICommandExecutor;
+import StrgWar.gui.effects.ILineDrawer;
 import StrgWar.map.readonly.IReadonlyMapProvider;
+import javafx.scene.layout.Pane;
+import javafx.geometry.Point2D;
 
 public class PlayerActor extends AbstractActor
 {
-	public PlayerActor(ICommandExecutor commandExecutor, IReadonlyMapProvider readonlyMapProvider, Pane root)
+	
+	public PlayerActor(ICommandExecutor commandExecutor, IReadonlyMapProvider readonlyMapProvider, Pane root, ILineDrawer lineDrawer)
 	{
 		super(commandExecutor, readonlyMapProvider);
-
+	
+		_lineDrawer = lineDrawer;
+		_root = root;
 		
-		root.setOnMousePressed(new EventHandler<MouseEvent>() {
+		_root.setOnMousePressed(new EventHandler<MouseEvent>() {
 			  @Override public void handle(MouseEvent mouseEvent) {
-			   x1=mouseEvent.getX();
-			   y1=mouseEvent.getY();
-			   line.setStartX(x1);
-			   line.setStartY(y1);
-			   System.out.println("prr "+x1+" "+y1);
+				  
+				  origin = new Point2D(mouseEvent.getX(), mouseEvent.getY());
+
 			   root.setCursor(Cursor.MOVE);
 			  }
 			});
 		
-		root.setOnMouseReleased(new EventHandler<MouseEvent>() {
+		_root.setOnMouseReleased(new EventHandler<MouseEvent>() {
 			  @Override public void handle(MouseEvent mouseEvent) {
 				  root.setCursor(Cursor.HAND);
+				  
+				  _lineDrawer.DrawLine(origin, new Point2D(mouseEvent.getX(), mouseEvent.getY()));
+				  
 			  }
 			});
-		
-		root.setOnMouseDragged(new EventHandler<MouseEvent>() {
-			  @Override public void handle(MouseEvent mouseEvent) {
-				  x2=mouseEvent.getX();
-				   y2=mouseEvent.getY();
-				   
-				   line.setEndX(x1);
-				   line.setEndY(y1);
-				   System.out.println("dff"+x2+" "+y2); }
-			});
-		 
-		root.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			  @Override public void handle(MouseEvent mouseEvent) {
-				 root.setCursor(Cursor.HAND);
-			  }
-			});
-		root.getChildren().add(line);
-		
 	}
 
 	@Override
 	public void run()
 	{
-		// TODO Auto-generated method stub
+		while(true)
+		{
+			try
+			{
+				Thread.sleep(500);
+			}
+			catch (Exception e)
+			{
+				break;
+			}
+		}
 		
+		_root.setOnMousePressed(null);
+		_root.setOnMouseReleased(null);
 	}
 
 	@Override
@@ -60,4 +63,7 @@ public class PlayerActor extends AbstractActor
 		return  "Player";
 	}
 
+	private Pane _root;
+	private ILineDrawer _lineDrawer;
+	private Point2D origin;
 }

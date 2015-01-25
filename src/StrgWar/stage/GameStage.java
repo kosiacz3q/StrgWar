@@ -9,7 +9,8 @@ import org.xml.sax.SAXException;
 
 import StrgWar.ai.GameLogicExecutor;
 import StrgWar.ai.implementations.LKosiakAI;
-import StrgWar.map.changeable.ChangeableNode;
+import StrgWar.ai.implementations.PlayerActor;
+import StrgWar.gui.effects.SimpleLineDrawer;
 import StrgWar.map.loader.MapFromXmlLoader;
 import StrgWar.map.providers.MapFromFileProvider;
 import StrgWar.map.readonly.ReadonlyNode;
@@ -39,6 +40,8 @@ public class GameStage extends StrgWar.stage.Stage
 		 _gameLogicExecutor = new GameLogicExecutor(_mffp);
 		 
 		 _players = new ArrayList<Thread>();
+		 
+		 _root = root;
 	}
 
 	@Override
@@ -49,8 +52,9 @@ public class GameStage extends StrgWar.stage.Stage
 		
 		_players.add(new Thread(new  LKosiakAI(_gameLogicExecutor, _mffp, "kosiacz3q_1")));
 		
-		_players.add(new Thread(new  LKosiakAI(_gameLogicExecutor, _mffp, "kosiacz3q_2")));
+		//_players.add(new Thread(new  LKosiakAI(_gameLogicExecutor, _mffp, "kosiacz3q_2")));
 		
+		_players.add(new Thread(new PlayerActor(_gameLogicExecutor, _mffp, _root, new SimpleLineDrawer(_root))));
 		
 		for ( Thread thread : _players)
 			thread.start();
@@ -109,4 +113,5 @@ public class GameStage extends StrgWar.stage.Stage
 	private MapFromFileProvider _mffp;
 	
 	private ArrayList<Thread> _players;
+	private Pane _root;
 }
