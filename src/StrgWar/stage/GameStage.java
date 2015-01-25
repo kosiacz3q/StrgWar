@@ -9,8 +9,10 @@ import org.xml.sax.SAXException;
 
 import StrgWar.ai.GameLogicExecutor;
 import StrgWar.ai.implementations.LKosiakAI;
+import StrgWar.map.changeable.ChangeableNode;
 import StrgWar.map.loader.MapFromXmlLoader;
 import StrgWar.map.providers.MapFromFileProvider;
+import StrgWar.map.readonly.ReadonlyNode;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -54,6 +56,15 @@ public class GameStage extends StrgWar.stage.Stage
 			thread.start();
 		
 		_gc.setFill(Color.GREEN);
+		
+		for(ReadonlyNode node : _mffp.GetReadOnlyMap().nodes)
+		{
+			int x = (int)node.GetPosition().getX();
+			int y = (int)node.GetPosition().getY();
+			
+			node.PrintNode(_gc, null, x, y, 50); 
+		}
+		
 		/*
 		_gc.setStroke(Color.BLUE);
 		_gc.setLineWidth(5);
