@@ -1,15 +1,16 @@
 package StrgWar.map;
 
-import javafx.geometry.Point2D;
 import StrgWar.core.IUpdateable;
+import StrgWar.map.changeable.ChangeableNode;
 
 public class GameUnit implements IUpdateable
 {
-	public GameUnit(int movementSpeed, Point2D origin, Point2D target)
+	public GameUnit(ChangeableNode origin, ChangeableNode target)
 	{
-		_movementSpeed = movementSpeed;
-		_roadLength = (float) origin.distance(target);
+		_roadLength = (float) origin.GetPosition().distance(target.GetPosition());
 		_traveled = 0;
+		_movementSpeed = 1;
+		_target = target;
 	}
 
 	@Override
@@ -23,7 +24,20 @@ public class GameUnit implements IUpdateable
 		return _traveled >= _roadLength;
 	}
 	
-	private int _movementSpeed;
+	public ChangeableNode GetTarget()
+	{
+		return _target;
+	}
+	
+	public ChangeableNode GetOrigin()
+	{
+		return _origin;
+	}
+	
+	private ChangeableNode _target;
+	private ChangeableNode _origin;
+	
+	private final float _movementSpeed;
 	private float _roadLength;
 	private float _traveled;
 }

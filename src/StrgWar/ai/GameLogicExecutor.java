@@ -1,6 +1,5 @@
 package StrgWar.ai;
 
-import java.util.ArrayList;
 import java.util.concurrent.locks.ReentrantLock;
 
 import StrgWar.map.changeable.ChangeableMap;
@@ -11,7 +10,6 @@ public class GameLogicExecutor implements ICommandExecutor
 	public GameLogicExecutor(IChangeableMapProvider changeableMapProvider)
 	{
 		_commandExecuteLock = new ReentrantLock();
-		_AbstractControllers = new ArrayList<AbstractActor>();
 		_changeableMapProvider = changeableMapProvider;
 		_map = changeableMapProvider.GetChangeableMap();
 	}
@@ -41,7 +39,6 @@ public class GameLogicExecutor implements ICommandExecutor
 	}
 	
 	private final ReentrantLock _commandExecuteLock;
-	private final ArrayList<AbstractActor> _AbstractControllers;
 	private final IChangeableMapProvider _changeableMapProvider;
 	private final ChangeableMap _map;
 }
