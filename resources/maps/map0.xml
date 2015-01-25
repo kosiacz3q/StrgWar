@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
 <map>
-	<node name= "bac1" occupant="player1" startSize="10" unitsPerSecond="10" x="10" y="10"></node>
-	<node name= "bac2" occupant="player2" startSize="10" unitsPerSecond="10" x="20" y="20"></node>
+	<node name="bac1" occupant="player1" startSize="10" unitsPerSecond="10" x="10" y="10"></node>
+	<node name="bac2" occupant="player2" startSize="10" unitsPerSecond="10" x="20" y="20"></node>
 </map>

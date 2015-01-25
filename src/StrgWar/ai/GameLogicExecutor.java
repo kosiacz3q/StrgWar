@@ -15,11 +15,26 @@ public class GameLogicExecutor implements ICommandExecutor
 		_commandExecuteLock = new ReentrantLock();
 		
 		_map = changeableMapProvider.GetChangeableMap();
+		
+		_isGameStarted = false;
+	}
+	
+	public void StartGame()
+	{
+		_isGameStarted = true;
+	}
+	
+	public void StopGame()
+	{
+		_isGameStarted = false;
 	}
 	
 	@Override
 	public void ExecuteCommand(AbstractActor abstractActor, ActorCommand actorCommand)
 	{
+		if (!_isGameStarted)
+			return;
+		
 		_commandExecuteLock.lock();
 		
 		try
@@ -73,5 +88,7 @@ public class GameLogicExecutor implements ICommandExecutor
 	
 	private final ReentrantLock _commandExecuteLock;
 	private final ChangeableMap _map;
+	private boolean _isGameStarted;
 	private static final Logger _logger = Logger.getLogger( GameLogicExecutor.class.getName() );
+	
 }

@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 public class ChangeableMap
 {
+	public ChangeableMap()
+	{
+		nodes = new ArrayList<ChangeableNode>();
+	}
+	
 	public ArrayList<ChangeableNode> nodes;
 	
 	

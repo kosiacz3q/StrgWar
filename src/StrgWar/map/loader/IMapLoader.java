@@ -1,7 +1,8 @@
 package StrgWar.map.loader;
 
+import java.util.List;
+
 public interface IMapLoader
 {
-	boolean HasNext();
-	RawNode GetNext();
+	List<RawNode> GetNodes();
 }

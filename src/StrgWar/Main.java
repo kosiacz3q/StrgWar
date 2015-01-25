@@ -1,5 +1,11 @@
 package StrgWar;
 
+import java.io.IOException;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import StrgWar.stage.GameStage;
@@ -16,7 +22,7 @@ public class Main extends Application
 			_stageManager = new StageManager();
 
 			_stageManager.RegisterStage(new MenuStage(primaryStage));
-			_stageManager.RegisterStage(new GameStage(primaryStage));
+			_stageManager.RegisterStage(new GameStage(primaryStage , "e:/Workspace/java/gitStrgWar/resources/maps/map0.xml"));
 
 			_stageManager.SetStage("GAME");
 		}
@@ -26,10 +32,23 @@ public class Main extends Application
 		}
 	}
 
-	public static void main(String[] args)
+	public static void main(String[] args)  throws SecurityException, IOException
 	{
+		FileHandler fh = new FileHandler("logstrgwar.log", false);
+		
+		fh.setFormatter(new SimpleFormatter());
+		
+		_logger.addHandler(fh);
+		
+		_logger.setLevel(Level.ALL);
+		
+		_logger.log(Level.ALL , "[GAME STARTS]");
+		
 		launch(args);
+		
+		_logger.log(Level.ALL , "[GAME ENDS]");
 	}
 
-	StageManager _stageManager;
+	private StageManager _stageManager;
+	private final static Logger _logger = Logger.getLogger(Main.class.getName()); 
 }

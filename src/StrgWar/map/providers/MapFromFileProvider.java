@@ -41,16 +41,16 @@ public class MapFromFileProvider implements IChangeableMapProvider, IReadonlyMap
 	{
 		_changeAbleMap = new ChangeableMap();
 		
-		while (_loader.HasNext())
+		
+		for (RawNode rn : _loader.GetNodes())
 		{
-			RawNode rw = _loader.GetNext();
+			ChangeableNode nd = new ChangeableNode(rn.name, rn.occupant, rn.startSize, rn.unitsPerSecond);
 			
-			ChangeableNode nd = new ChangeableNode(rw.name, rw.occupant, rw.startSize, rw.unitsPerSecond);
-			
-			nd.SetPosition(new Point2D(rw.x, rw.y));
+			nd.SetPosition(new Point2D(rn.x, rn.y));
 			
 			_changeAbleMap.nodes.add(nd);
 		}
+		
 		
 		_readonlyMap = new ReadonlyMap();
 		

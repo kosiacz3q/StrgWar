@@ -25,11 +25,12 @@ public class LKosiakAI extends AbstractActor
 	@Override
 	public void run()
 	{
+		_logger.log(Level.INFO, "LKosiak AI starts");
 		boolean isInterrupted = false;
 		
 		//PROSTE AI wysy³aj¹ce jednostki z naczego najwiêkszego miasta do najmniejszego nie naszego na mapie
 		// zak³ada ¿e istnieje conamniej jedno nasze miasto i jedno przeciwnika
-		while (isInterrupted)
+		while (!isInterrupted)
 		{	
 			ReadonlyNode nodeWithMinCountOfEnemy = _map.nodes.get(0);
 			
@@ -76,6 +77,8 @@ public class LKosiakAI extends AbstractActor
 				isInterrupted = true;
 			}
 		}
+		
+		_logger.log(Level.INFO, "LKosiak AI ends");
 	}
 
 	@Override
