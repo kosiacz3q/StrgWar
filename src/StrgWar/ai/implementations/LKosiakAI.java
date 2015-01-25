@@ -1,6 +1,10 @@
 package StrgWar.ai.implementations;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import StrgWar.ai.AbstractActor;
+import StrgWar.ai.GameLogicExecutor;
 import StrgWar.ai.ICommandExecutor;
 import StrgWar.ai.StartSendingUnits;
 import StrgWar.ai.StopSendingCommand;
@@ -55,12 +59,13 @@ public class LKosiakAI extends AbstractActor
 			
 			
 			//wysy³amy jednostki 
+			_logger.log(Level.INFO, "units from " + nodeWithMaxOfOurUnits.GetMapElementName() + " to " + nodeWithMinCountOfEnemy.GetMapElementName());
 			_commandExecutor.ExecuteCommand(this, new StartSendingUnits(
 													nodeWithMaxOfOurUnits.GetMapElementName(), //sk¹d
 													nodeWithMinCountOfEnemy.GetMapElementName())); //dok¹d
 			
 			//mo¿emy tak¿e ewentualnie kazaæ przestaæ wysy³aæ jednostki
-			_commandExecutor.ExecuteCommand(this, new StopSendingCommand(nodeWithMaxOfOurUnits.GetMapElementName()));
+			//_commandExecutor.ExecuteCommand(this, new StopSendingCommand(nodeWithMaxOfOurUnits.GetMapElementName()));
 
 			try
 			{
@@ -82,4 +87,5 @@ public class LKosiakAI extends AbstractActor
 	private final String _name;
 	
 	private final ReadonlyMap _map;
+	private static final Logger _logger = Logger.getLogger( GameLogicExecutor.class.getName() );
 }

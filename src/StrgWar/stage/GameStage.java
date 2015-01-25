@@ -1,29 +1,43 @@
 package StrgWar.stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
+import StrgWar.ai.AbstractActor;
+import StrgWar.ai.GameLogicExecutor;
+import StrgWar.ai.implementations.LKosiakAI;
+import StrgWar.controller.AbstractController;
+import StrgWar.map.loader.MapFromXmlLoader;
+import StrgWar.map.providers.MapFromFileProvider;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.ArcType;
 
 public class GameStage extends StrgWar.stage.Stage
 {
-	public GameStage(javafx.stage.Stage primaryStage) throws IOException
+	public GameStage(javafx.stage.Stage primaryStage) throws IOException, SAXException, ParserConfigurationException
 	{
 		_primaryStage = primaryStage;
 		Pane root = (Pane) FXMLLoader.load(getClass().getResource("../gui/GameView.fxml"));
 
 		_canvas = (Canvas) root.getChildren().get(0);
 
-		// _canvas =
-		// (Canvas)FXMLLoader.load(getClass().getResource("../gui/GameView.fxml"));
 		_gc = _canvas.getGraphicsContext2D();
 
 		_gameScene = new Scene(root, 900, 600);
 		_gameScene.getStylesheets().add(getClass().getResource("../gui/application.css").toExternalForm());
+		
+		 _mffp = new MapFromFileProvider(new MapFromXmlLoader("e:/Workspace/java/gitStrgWar/resources/maps/map0.xml"));
+		 
+		 _gameLogicExecutor = new GameLogicExecutor(_mffp);
+		 
+		 _players = new ArrayList<AbstractActor>();
 	}
 
 	@Override
@@ -31,7 +45,12 @@ public class GameStage extends StrgWar.stage.Stage
 	{
 		_primaryStage.setScene(_gameScene);
 		_primaryStage.show();
-
+		
+		_players.add(new LKosiakAI(_gameLogicExecutor, _mffp, "kosiacz3q_1"));
+		
+		_players.add(new LKosiakAI(_gameLogicExecutor, _mffp, "kosiacz3q_2"));
+		
+		/*
 		_gc.setFill(Color.GREEN);
 		_gc.setStroke(Color.BLUE);
 		_gc.setLineWidth(5);
@@ -48,7 +67,7 @@ public class GameStage extends StrgWar.stage.Stage
 		_gc.strokeArc(110, 160, 30, 30, 45, 240, ArcType.ROUND);
 		_gc.fillPolygon(new double[] { 10, 40, 10, 40 }, new double[] { 210, 210, 240, 240 }, 4);
 		_gc.strokePolygon(new double[] { 60, 90, 60, 90 }, new double[] { 210, 210, 240, 240 }, 4);
-		_gc.strokePolyline(new double[] { 110, 140, 110, 140 }, new double[] { 210, 210, 240, 240 }, 4);
+		_gc.strokePolyline(new double[] { 110, 140, 110, 140 }, new double[] { 210, 210, 240, 240 }, 4);*/
 	}
 
 	@Override
@@ -66,4 +85,9 @@ public class GameStage extends StrgWar.stage.Stage
 	private GraphicsContext _gc;
 	private javafx.stage.Stage _primaryStage;
 	private Scene _gameScene;
+	
+	private GameLogicExecutor _gameLogicExecutor;
+	private MapFromFileProvider _mffp;
+	
+	private ArrayList<AbstractActor> _players;
 }
