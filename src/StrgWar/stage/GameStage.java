@@ -1,5 +1,6 @@
 package StrgWar.stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -10,9 +11,10 @@ import org.xml.sax.SAXException;
 import StrgWar.ai.AbstractActor;
 import StrgWar.ai.GameLogicExecutor;
 import StrgWar.ai.implementations.LKosiakAI;
-import StrgWar.controller.AbstractController;
 import StrgWar.map.loader.MapFromXmlLoader;
+import StrgWar.map.loader.RawNode;
 import StrgWar.map.providers.MapFromFileProvider;
+import StrgWar.map.readonly.ReadonlyNode;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -33,7 +35,11 @@ public class GameStage extends StrgWar.stage.Stage
 		_gameScene = new Scene(root, 900, 600);
 		_gameScene.getStylesheets().add(getClass().getResource("../gui/application.css").toExternalForm());
 		
-		 _mffp = new MapFromFileProvider(new MapFromXmlLoader("e:/Workspace/java/gitStrgWar/resources/maps/map0.xml"));
+		String rootDir = new File(".").getCanonicalPath();
+		File subDir = new File(rootDir, "/resources/maps");
+		File fXmlFile = new File(subDir, "map0.xml");
+		
+		 _mffp = new MapFromFileProvider(new MapFromXmlLoader(fXmlFile.getAbsolutePath()));
 		 
 		 _gameLogicExecutor = new GameLogicExecutor(_mffp);
 		 
@@ -49,6 +55,13 @@ public class GameStage extends StrgWar.stage.Stage
 		_players.add(new LKosiakAI(_gameLogicExecutor, _mffp, "kosiacz3q_1"));
 		
 		_players.add(new LKosiakAI(_gameLogicExecutor, _mffp, "kosiacz3q_2"));
+
+
+		for(ReadonlyNode node : _mffp.GetReadOnlyMap().nodes)
+		{
+			node.PrintNode(_gc, null); 
+		}
+		
 		
 		/*
 		_gc.setFill(Color.GREEN);
