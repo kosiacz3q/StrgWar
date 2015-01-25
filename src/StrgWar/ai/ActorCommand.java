@@ -1,6 +1,6 @@
 package StrgWar.ai;
 
-public class ActorCommand 
+public abstract class ActorCommand 
 {
 	public ActorCommand(String origin, String destination, ActorCommandType actorCommandType )
 	{
@@ -8,7 +8,6 @@ public class ActorCommand
 		_destination = destination;
 		_actorCommandType = actorCommandType;
 	}
-	
 	
 	public String GetOrigin()
 	{

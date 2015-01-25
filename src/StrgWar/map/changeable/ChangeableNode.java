@@ -1,14 +1,17 @@
 package StrgWar.map.changeable;
 
-import java.util.HashMap;
-
+import StrgWar.core.IUpdateable;
 import StrgWar.map.readonly.ReadonlyNode;
 
-public class ChangeableNode extends ReadonlyNode
+public class ChangeableNode extends ReadonlyNode implements IUpdateable
 {
-	public ChangeableNode()
+	public ChangeableNode(String mapElementName, String occupant, int startSize, int income)
 	{
-		_edgeHashMap = new HashMap<String, ChangeableEdge>();
+		super(mapElementName);
+		
+		_occupantName = occupant;
+		_income = income;
+		_occupantSize = startSize;
 	}
 	
 	public void StartSendingUnitsTo(String nodeName)
@@ -16,10 +19,11 @@ public class ChangeableNode extends ReadonlyNode
 		
 	}
 	
-	public void AddEdge(String nodeName , ChangeableEdge edge)
+	@Override
+	public void Update(float time)
 	{
-		_edgeHashMap.put(nodeName, edge);
+				
 	}
 	
-	private HashMap<String, ChangeableEdge> _edgeHashMap;
+	
 }

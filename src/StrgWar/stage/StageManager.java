@@ -5,10 +5,10 @@ import java.util.HashMap;
 
 public class StageManager
 {
-
 	public StageManager() throws IOException
 	{
 		_stages = new HashMap<String, Stage>();
+		_actualStageName = "";
 	}
 
 	public void RegisterStage(Stage stage)
@@ -22,8 +22,15 @@ public class StageManager
 
 	public void SetStage(String name)
 	{
+		if (_actualStageName.length() != 0)
+		{
+			_stages.get(_actualStageName).OnExit();
+		}
+		
 		_stages.get(name).OnStart();
+		_actualStageName = name;
 	}
 
 	private HashMap<String, Stage> _stages;
+	private String _actualStageName;
 }
