@@ -1,8 +1,6 @@
 package StrgWar.ai.implementations;
 
 import StrgWar.ai.AbstractActor;
-import StrgWar.ai.ActorCommand;
-import StrgWar.ai.ActorCommandType;
 import StrgWar.ai.ICommandExecutor;
 import StrgWar.ai.StartSendingUnits;
 import StrgWar.ai.StopSendingCommand;

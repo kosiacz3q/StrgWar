@@ -1,6 +1,7 @@
 package StrgWar.map.changeable;
 
 import StrgWar.core.IUpdateable;
+import StrgWar.map.ISentUnitsManager;
 import StrgWar.map.readonly.ReadonlyNode;
 
 public class ChangeableNode extends ReadonlyNode implements IUpdateable
@@ -14,9 +15,19 @@ public class ChangeableNode extends ReadonlyNode implements IUpdateable
 		_occupantSize = startSize;
 	}
 	
+	public void SetUnitsReceiver(ISentUnitsManager sentUnitsManager)
+	{
+		_sentUnitsManager = sentUnitsManager;
+	}
+	
 	public void StartSendingUnitsTo(String nodeName)
 	{
-		
+		sendingTargetTarget = nodeName;
+	}
+	
+	public void StopSendingUnits()
+	{
+		sendingTargetTarget = "";
 	}
 	
 	@Override
@@ -25,5 +36,6 @@ public class ChangeableNode extends ReadonlyNode implements IUpdateable
 				
 	}
 	
-	
+	private ISentUnitsManager _sentUnitsManager;
+	private String sendingTargetTarget;
 }

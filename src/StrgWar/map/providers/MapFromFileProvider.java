@@ -1,5 +1,6 @@
 package StrgWar.map.providers;
 
+import javafx.geometry.Point2D;
 import StrgWar.map.changeable.ChangeableMap;
 import StrgWar.map.changeable.ChangeableNode;
 import StrgWar.map.changeable.IChangeableMapProvider;
@@ -46,10 +47,17 @@ public class MapFromFileProvider implements IChangeableMapProvider, IReadonlyMap
 			
 			ChangeableNode nd = new ChangeableNode(rw.name, rw.occupant, rw.startSize, rw.unitsPerSecond);
 			
+			nd.SetPosition(new Point2D(rw.x, rw.y));
 			
+			_changeAbleMap.nodes.add(nd);
 		}
 		
+		_readonlyMap = new ReadonlyMap();
 		
+		for (ChangeableNode nd : _changeAbleMap.nodes)
+		{
+			_readonlyMap.nodes.add(nd);
+		}
 	}
 
 	private ChangeableMap _changeAbleMap;

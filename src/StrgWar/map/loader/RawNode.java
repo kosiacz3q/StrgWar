@@ -6,4 +6,6 @@ public class RawNode
 	public String occupant;
 	public int startSize;
 	public int unitsPerSecond;
+	public int x;
+	public int y;
 }
