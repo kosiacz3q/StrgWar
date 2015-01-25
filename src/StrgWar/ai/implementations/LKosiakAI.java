@@ -20,24 +20,26 @@ public class LKosiakAI extends AbstractActor
 		
 		_name = name;
 		_map = readonlyMapProvider.GetReadOnlyMap();
+		
+		this.run();
 	}
 	
 	@Override
 	public void run()
 	{
-		boolean isInterrupted = false;
+		boolean isInterrupted = true;
 		
-		//PROSTE AI wysy³aj¹ce jednostki z naczego najwiêkszego miasta do najmniejszego nie naszego na mapie
-		// zak³ada ¿e istnieje conamniej jedno nasze miasto i jedno przeciwnika
+		//PROSTE AI wysyï¿½ajï¿½ce jednostki z naczego najwiï¿½kszego miasta do najmniejszego nie naszego na mapie
+		// zakï¿½ada ï¿½e istnieje conamniej jedno nasze miasto i jedno przeciwnika
 		while (isInterrupted)
 		{	
 			ReadonlyNode nodeWithMinCountOfEnemy = _map.nodes.get(0);
 			
 			for (ReadonlyNode node : _map.nodes)
 			{
-				//sprawdzamy czy to nie s¹ przypadkiem nasze jednostki
+				//sprawdzamy czy to nie sï¿½ przypadkiem nasze jednostki
 				if (nodeWithMinCountOfEnemy.GetOccupantName().compareTo(_name) != 0 )
-					//pobieramy iloœc jednostek z wierzcho³ka 
+					//pobieramy iloï¿½c jednostek z wierzchoï¿½ka 
 					if (nodeWithMinCountOfEnemy.GetOccupantArmySize() > node.GetOccupantArmySize())
 					{
 						nodeWithMinCountOfEnemy = node;
@@ -50,7 +52,7 @@ public class LKosiakAI extends AbstractActor
 			{
 				//szukamy naszego miasta
 				if (nodeWithMaxOfOurUnits.GetOccupantName().compareTo(_name) == 0 )
-					//pobieramy iloœc jednostek z wierzcho³ka 
+					//pobieramy iloï¿½c jednostek z wierzchoï¿½ka 
 					if (nodeWithMaxOfOurUnits.GetOccupantArmySize() < node.GetOccupantArmySize())
 					{
 							nodeWithMaxOfOurUnits = node;
@@ -58,13 +60,13 @@ public class LKosiakAI extends AbstractActor
 			}
 			
 			
-			//wysy³amy jednostki 
+			//wysyï¿½amy jednostki 
 			_logger.log(Level.INFO, "units from " + nodeWithMaxOfOurUnits.GetMapElementName() + " to " + nodeWithMinCountOfEnemy.GetMapElementName());
 			_commandExecutor.ExecuteCommand(this, new StartSendingUnits(
-													nodeWithMaxOfOurUnits.GetMapElementName(), //sk¹d
-													nodeWithMinCountOfEnemy.GetMapElementName())); //dok¹d
-			
-			//mo¿emy tak¿e ewentualnie kazaæ przestaæ wysy³aæ jednostki
+													nodeWithMaxOfOurUnits.GetMapElementName(), //skï¿½d
+													nodeWithMinCountOfEnemy.GetMapElementName())); //dokï¿½d
+
+			//moï¿½emy takï¿½e ewentualnie kazaï¿½ przestaï¿½ wysyï¿½aï¿½ jednostki
 			//_commandExecutor.ExecuteCommand(this, new StopSendingCommand(nodeWithMaxOfOurUnits.GetMapElementName()));
 
 			try

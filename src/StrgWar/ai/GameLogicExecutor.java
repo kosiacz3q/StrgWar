@@ -20,6 +20,7 @@ public class GameLogicExecutor implements ICommandExecutor
 	@Override
 	public void ExecuteCommand(AbstractActor abstractActor, ActorCommand actorCommand)
 	{
+		System.out.println("wysylam");
 		_commandExecuteLock.lock();
 		
 		try

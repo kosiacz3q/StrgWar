@@ -4,38 +4,63 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.collections.FXCollections ?>
 
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="StrgWar.controller.MenuStageController">
 	<center>
 		<GridPane BorderPane.alignment="CENTER">
 			<columnConstraints>
-				<ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0"
-					minWidth="10.0" prefWidth="95.0" />
-				<ColumnConstraints hgrow="SOMETIMES" maxWidth="153.0"
-					minWidth="10.0" prefWidth="130.0" />
-				<ColumnConstraints hgrow="SOMETIMES" maxWidth="137.0"
-					minWidth="10.0" prefWidth="112.0" />
+				<ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0"
+					minWidth="200.0" prefWidth="200.0" />
 			</columnConstraints>
 			<rowConstraints>
-				<RowConstraints minHeight="10.0" prefHeight="30.0"
+				<RowConstraints minHeight="10.0" prefHeight="10.0"
 					vgrow="SOMETIMES" />
-				<RowConstraints minHeight="10.0" prefHeight="30.0"
+				<RowConstraints minHeight="10.0" prefHeight="10.0"
 					vgrow="SOMETIMES" />
-				<RowConstraints minHeight="10.0" prefHeight="30.0"
+				<RowConstraints minHeight="10.0" prefHeight="10.0"
 					vgrow="SOMETIMES" />
-				<RowConstraints minHeight="10.0" prefHeight="30.0"
+				<RowConstraints minHeight="10.0" prefHeight="10.0"
+					vgrow="SOMETIMES" />
+				<RowConstraints minHeight="10.0" prefHeight="10.0"
+					vgrow="SOMETIMES" />
+				<RowConstraints minHeight="10.0" prefHeight="10.0"
+					vgrow="SOMETIMES" />
+				<RowConstraints minHeight="10.0" prefHeight="10.0"
 					vgrow="SOMETIMES" />
 			</rowConstraints>
 			<children>
-				<Slider prefHeight="14.0" prefWidth="138.0"
-					GridPane.columnIndex="1" GridPane.rowIndex="1" />
-				<Slider prefHeight="14.0" prefWidth="145.0"
-					GridPane.columnIndex="1" GridPane.rowIndex="2" />
-				<Button minHeight="-Infinity" minWidth="-Infinity"
-					mnemonicParsing="false" text="Button" GridPane.columnIndex="2"
+				<Label text="Algorytm 1" GridPane.columnIndex="1"
+					GridPane.rowIndex="1" />
+				<ComboBox fx:id="algorithm1" GridPane.columnIndex="1"
+					GridPane.rowIndex="2">
+					<items>
+						<FXCollections fx:factory="observableArrayList"></FXCollections>
+					</items>
+				</ComboBox>
+
+				<Label text="Algorytm 2" GridPane.columnIndex="1"
 					GridPane.rowIndex="3" />
+				<ComboBox fx:id="algorithm2" GridPane.columnIndex="1"
+					GridPane.rowIndex="4">
+					<items>
+						<FXCollections fx:factory="observableArrayList"></FXCollections>
+					</items>
+				</ComboBox>
+
+				<Label text="Mapa" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+				<ComboBox fx:id="map" GridPane.columnIndex="1"
+					GridPane.rowIndex="6">
+					<items>
+						<FXCollections fx:factory="observableArrayList"></FXCollections>
+					</items>
+				</ComboBox>
+
+				<Button fx:id="btnStart" text="Start" GridPane.columnIndex="1"
+					GridPane.rowIndex="7" />
 			</children>
 		</GridPane>
 	</center>
+
 </BorderPane>
