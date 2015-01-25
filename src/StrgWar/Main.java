@@ -1,5 +1,6 @@
 package StrgWar;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -20,11 +21,15 @@ public class Main extends Application
 		try
 		{
 			_stageManager = new StageManager();
-
+			
+			String rootDir = new File(".").getCanonicalPath();
+			File subDir = new File(rootDir, "/resources/maps");
+			File fXmlFile = new File(subDir, "map0.xml");
+			
 			_stageManager.RegisterStage(new MenuStage(primaryStage));
-			_stageManager.RegisterStage(new GameStage(primaryStage , "e:/Workspace/java/gitStrgWar/resources/maps/map0.xml"));
+			_stageManager.RegisterStage(new GameStage(primaryStage , fXmlFile.getAbsolutePath()));
 
-			_stageManager.SetStage("GAME");
+			_stageManager.SetStage("MENU");
 		}
 		catch (Exception e)
 		{
