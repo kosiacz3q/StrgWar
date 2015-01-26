@@ -1,5 +1,10 @@
 package StrgWar.map.changeable;
 
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import StrgWar.core.IUpdateable;
 import StrgWar.map.GameUnit;
 import StrgWar.map.ISentUnitsManager;

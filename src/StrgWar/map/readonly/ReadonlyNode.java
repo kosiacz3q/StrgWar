@@ -1,6 +1,10 @@
 package StrgWar.map.readonly;
 
 import javafx.geometry.Point2D;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
 public class ReadonlyNode
 {
@@ -11,6 +15,27 @@ public class ReadonlyNode
 		_occupantName = "neutral";
 		_occupantSize = 0;
 		_income = 0;
+	}
+	
+	public void PrintNode(GraphicsContext gc, Color color, int x, int y, int r) {
+		if(color == null)
+			color = Color.rgb(205, 192, 176); //neutralny
+		
+		gc.setLineWidth(5);
+		gc.setStroke(color);
+
+		gc.strokeOval(x, y, 2 * r, 2 * r);
+			
+		gc.setFont(Font.font("Calibri", 20));
+		gc.setFill(color);
+		gc.setTextAlign(TextAlignment.CENTER);
+
+		gc.fillText(Integer.toString(_occupantSize), x + r, y + r);
+	}
+	
+	public void RedrawNode(GraphicsContext gc, Color color, int x, int y, int r) {
+		gc.clearRect(x, y, 2 *r, 2 * r);
+		PrintNode(gc, color, x, y, r);
 	}
 	
 	public void SetPosition(Point2D position)

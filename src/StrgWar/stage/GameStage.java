@@ -13,6 +13,7 @@ import StrgWar.ai.implementations.PlayerActor;
 import StrgWar.gui.effects.SimpleLineDrawer;
 import StrgWar.map.loader.MapFromXmlLoader;
 import StrgWar.map.providers.MapFromFileProvider;
+import StrgWar.map.readonly.ReadonlyNode;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -59,6 +60,9 @@ public class GameStage extends StrgWar.stage.Stage
 			thread.start();
 		
 		_gc.setFill(Color.GREEN);
+		
+		_mffp.GetReadOnlyMap().DrawMap(_gc);
+		
 		/*
 		_gc.setStroke(Color.BLUE);
 		_gc.setLineWidth(5);
