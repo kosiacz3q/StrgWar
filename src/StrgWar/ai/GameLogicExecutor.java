@@ -46,45 +46,51 @@ public class GameLogicExecutor implements ICommandExecutor, ISentUnitsManager, R
 		
 		try
 		{
-			switch (actorCommand.GetCommandType())
+			if (actorCommand.GetOrigin().compareTo(abstractActor.GetName()) == 0)
 			{
-				case START_SENDING :
-					
-					ChangeableNode origin = _map.Find(actorCommand.GetOrigin());
-					ChangeableNode destination = _map.Find(actorCommand.GetDestination());
-					
-					if (origin != null && destination != null)
-					{
-						origin.StartSendingUnitsTo(destination);
-						_logger.log(Level.FINE, "Player (" + abstractActor.GetName() + " starts sending units from " +  actorCommand.GetOrigin() + " to " + destination.GetMapElementName());
-					}
-					else
-					{
-						_logger.log(Level.FINE, "Wrong city name (" + actorCommand.GetOrigin() + " or " + actorCommand.GetDestination() + ") from player " + abstractActor.GetName());
-					}
-					
-					break;
-					
-				case STOP_SENDING :
-					
-					ChangeableNode nd = _map.Find(actorCommand.GetOrigin());
-					
-					if (nd != null)
-					{
-						nd.StopSendingUnits();
-						_logger.log(Level.FINE, "Player (" + abstractActor.GetName() + " stops sending units from " +  actorCommand.GetOrigin());
-					}
-					else
-					{
-						_logger.log(Level.FINE, "Wrong city name (" + actorCommand.GetOrigin() + ") from player " + abstractActor.GetName());
-					}
-
-					break;
-					
-				default :
-					_logger.log( Level.WARNING, "Unexpected command type");
-					break;
-					
+				switch (actorCommand.GetCommandType())
+				{
+					case START_SENDING :
+						
+						ChangeableNode origin = _map.Find(actorCommand.GetOrigin());
+						ChangeableNode destination = _map.Find(actorCommand.GetDestination());
+						
+						if (origin != null && destination != null)
+						{
+							origin.StartSendingUnitsTo(destination);
+							_logger.log(Level.FINE, "Player (" + abstractActor.GetName() + " starts sending units from " +  actorCommand.GetOrigin() + " to " + destination.GetMapElementName());
+						}
+						else
+						{
+							_logger.log(Level.FINE, "Wrong city name (" + actorCommand.GetOrigin() + " or " + actorCommand.GetDestination() + ") from player " + abstractActor.GetName());
+						}
+						
+						break;
+						
+					case STOP_SENDING :
+							
+							ChangeableNode nd = _map.Find(actorCommand.GetOrigin());
+							
+							if (nd != null)
+							{
+								nd.StopSendingUnits();
+								_logger.log(Level.FINE, "Player (" + abstractActor.GetName() + " stops sending units from " +  actorCommand.GetOrigin());
+							}
+							else
+							{
+								_logger.log(Level.FINE, "Wrong city name (" + actorCommand.GetOrigin() + ") from player " + abstractActor.GetName());
+							}
+		
+							break;
+							
+					default :
+							_logger.log( Level.WARNING, "Unexpected command type");
+							break;
+				}
+			}
+			else
+			{
+				_logger.log( Level.INFO, "Command to non owned city");
 			}
 		}
 		finally
