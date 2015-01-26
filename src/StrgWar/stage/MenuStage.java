@@ -13,6 +13,7 @@ public class MenuStage extends StrgWar.stage.Stage
 	public MenuStage(Stage primaryStage) throws IOException
 	{
 		_primaryStage = primaryStage;
+		_primaryStage.setResizable(false);
 		BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("../gui/MenuView.fxml"));
 		_menuScene = new Scene(root, 900, 600);
 		_menuScene.getStylesheets().add(getClass().getResource("../gui/application.css").toExternalForm());
