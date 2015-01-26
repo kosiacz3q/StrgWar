@@ -31,9 +31,9 @@ public class LKosiakAI extends AbstractActor
 		// zak³ada ¿e istnieje conamniej jedno nasze miasto i jedno przeciwnika
 		while (!isInterrupted)
 		{	
-			ReadonlyNode nodeWithMinCountOfEnemy = _map.nodes.get(0);
+			ReadonlyNode nodeWithMinCountOfEnemy = _map.Nodes.get(0);
 			
-			for (ReadonlyNode node : _map.nodes)
+			for (ReadonlyNode node : _map.Nodes)
 			{
 				//sprawdzamy czy to nie s¹ przypadkiem nasze jednostki
 				if (nodeWithMinCountOfEnemy.GetOccupantName().compareTo(_name) != 0 )
@@ -44,9 +44,9 @@ public class LKosiakAI extends AbstractActor
 					}
 			}
 			
-			ReadonlyNode nodeWithMaxOfOurUnits = _map.nodes.get(0);
+			ReadonlyNode nodeWithMaxOfOurUnits = _map.Nodes.get(0);
 			
-			for (ReadonlyNode node : _map.nodes)
+			for (ReadonlyNode node : _map.Nodes)
 			{
 				//szukamy naszego miasta
 				if (nodeWithMaxOfOurUnits.GetOccupantName().compareTo(_name) == 0 )
@@ -59,7 +59,8 @@ public class LKosiakAI extends AbstractActor
 			
 			
 			//wysy³amy jednostki 
-			_logger.log(Level.INFO, "units from " + nodeWithMaxOfOurUnits.GetMapElementName() + "(" + nodeWithMaxOfOurUnits.GetOccupantArmySize()  +")" + " to " + nodeWithMinCountOfEnemy.GetMapElementName() + "(" + nodeWithMinCountOfEnemy.GetOccupantArmySize() + ")");
+			_logger.log(Level.FINE, "units from " + nodeWithMaxOfOurUnits.GetMapElementName() + "(" + nodeWithMaxOfOurUnits.GetOccupantArmySize()  +")" + " to " + nodeWithMinCountOfEnemy.GetMapElementName() + "(" + nodeWithMinCountOfEnemy.GetOccupantArmySize() + ")");
+			
 			_commandExecutor.ExecuteCommand(this, new StartSendingUnits(
 													nodeWithMaxOfOurUnits.GetMapElementName(), //sk¹d
 													nodeWithMinCountOfEnemy.GetMapElementName())); //dok¹d

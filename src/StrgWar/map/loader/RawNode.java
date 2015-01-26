@@ -8,4 +8,5 @@ public class RawNode
 	public int unitsPerSecond;
 	public int x;
 	public int y;
+	public int r;
 }

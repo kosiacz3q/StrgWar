@@ -7,7 +7,7 @@ import StrgWar.map.readonly.ReadonlyNode;
 
 public class ChangeableNode extends ReadonlyNode implements IUpdateable
 {
-	public ChangeableNode(String mapElementName, String occupant, int startSize, int income)
+	public ChangeableNode(String mapElementName, String occupant, int startSize, int income, int radius)
 	{
 		super(mapElementName);
 		
@@ -16,7 +16,7 @@ public class ChangeableNode extends ReadonlyNode implements IUpdateable
 		_occupantSize = startSize;
 		
 		sendingTarget = null;
-		
+		_radius = radius;
 		_accumulatedTime = 0;
 	}
 	
@@ -49,6 +49,7 @@ public class ChangeableNode extends ReadonlyNode implements IUpdateable
 			{
 				_occupantSize = -_occupantSize;
 				_occupantName = gameUnit.Owner;
+				StopSendingUnits();
 			}
 		}
 	}
@@ -58,8 +59,16 @@ public class ChangeableNode extends ReadonlyNode implements IUpdateable
 	{
 		_accumulatedTime += time;
 		
-		if (_accumulatedTime > 100)
+		if (_accumulatedTime > 200)
 		{
+			++_incomeTimeCounter;
+			
+			if (_incomeTimeCounter >= 5)
+			{
+				_incomeTimeCounter = 0;
+				_occupantSize += _income;
+			}
+				
 			if (sendingTarget != null)
 			{
 					if (_occupantSize > 1)
@@ -78,6 +87,7 @@ public class ChangeableNode extends ReadonlyNode implements IUpdateable
 		}
 	}
 	
+	private int _incomeTimeCounter = 0;
 	private final int _unitsPerSend = 1;
 	private float _accumulatedTime;
 	private ISentUnitsManager _sentUnitsManager;

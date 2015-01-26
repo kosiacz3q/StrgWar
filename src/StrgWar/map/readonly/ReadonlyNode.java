@@ -1,5 +1,6 @@
 package StrgWar.map.readonly;
 
+import StrgWar.gui.IDrawable;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -13,7 +14,7 @@ import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
-public class ReadonlyNode
+public class ReadonlyNode implements IDrawable
 {
 	public ReadonlyNode(String mapElementName)
 	{
@@ -23,7 +24,7 @@ public class ReadonlyNode
 		_occupantSize = 0;
 		_income = 0;
 	}
-	
+
 	public void PrintNode(GraphicsContext gc, Pane root, Color color, int x, int y, int r) {
 		if(color == null)
 			color = Color.BLACK;// Color.rgb(205, 192, 176); //neutralny
@@ -58,7 +59,7 @@ public class ReadonlyNode
 		
 		return circle;
 	}
-	
+
 	public void SetPosition(Point2D position)
 	{
 		_position = position;
@@ -89,12 +90,40 @@ public class ReadonlyNode
 	{
 		return _position;
 	}
+	
+	public float GetRadius()
+	{
+		return _radius;
+	}
+	
+	@Override
+	public void Draw(GraphicsContext gc)
+	{
+		Color color = Color.BLACK;// Color.rgb(205, 192, 176); //neutralny
+		
+		gc.setLineWidth(5);
+		gc.setStroke(color);
+
+		gc.strokeOval(
+				_position.getX() - _radius / 2, 
+				_position.getY() - _radius / 2,
+				_radius,
+				_radius);
+			
+		gc.setFont(Font.font("Calibri", 20));
+		gc.setFill(color);
+		gc.setTextAlign(TextAlignment.CENTER);
+
+		gc.fillText(Integer.toString(_occupantSize), _position.getX(), _position.getY());	
+	}
 
 	protected int _occupantSize;
 	protected String _occupantName;
 	protected int _income;
 	protected String _mapElementName;
-
+	protected int _radius;
 	protected Point2D _position;
+
+	
 
 }

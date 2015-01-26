@@ -8,14 +8,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import StrgWar.ai.GameLogicExecutor;
-import StrgWar.ai.implementations.HDmowskaAI;
 import StrgWar.ai.implementations.LKosiakAI;
 import StrgWar.ai.implementations.PlayerActor;
-import StrgWar.controller.AbstractController;
+import StrgWar.gui.DrawingManager;
 import StrgWar.gui.effects.SimpleLineDrawer;
 import StrgWar.map.loader.MapFromXmlLoader;
 import StrgWar.map.providers.MapFromFileProvider;
-import StrgWar.map.readonly.ReadonlyNode;
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -41,9 +40,11 @@ public class GameStage extends StrgWar.stage.Stage
 		 
 		 _gameLogicExecutor = new GameLogicExecutor(_mffp);
 		 
-		 _players = new ArrayList<Thread>();
+		 _threads = new ArrayList<Thread>();
 		 
 		 _root = root;
+		 
+		 _drawingManager = new DrawingManager(_gc);
 	}
 
 	@Override
@@ -52,36 +53,34 @@ public class GameStage extends StrgWar.stage.Stage
 		_primaryStage.setScene(_gameScene);
 		_primaryStage.show();
 		
-		_players.add(new Thread(new LKosiakAI(_gameLogicExecutor, _mffp, "player2")));
+		_mffp.GetReadOnlyMap().Nodes.forEach(node -> _drawingManager.Register( node));
 		
-		_players.add(new Thread(new PlayerActor(_gameLogicExecutor, _mffp, _root, new SimpleLineDrawer(_root))));
+		_threads.add(new Thread(_gameLogicExecutor));
 		
-		for ( Thread thread : _players)
+		_threads.add(new Thread(new  LKosiakAI(_gameLogicExecutor, _mffp, "player1")));
+		
+		//_players.add(new Thread(new  LKosiakAI(_gameLogicExecutor, _mffp, "kosiacz3q_2")));
+		
+		_threads.add(new Thread(new PlayerActor(_gameLogicExecutor, _mffp, _root, new SimpleLineDrawer(_root))));
+		
+		for ( Thread thread : _threads)
 			thread.start();
 		
 		_gc.setFill(Color.GREEN);
+	
 		
-		_mffp.GetReadOnlyMap().DrawMap(_gc, _root);
-		
-		/*
-		_gc.setStroke(Color.BLUE);
-		_gc.setLineWidth(5);
-		_gc.strokeLine(40, 10, 10, 40);
-		_gc.fillOval(10, 60, 30, 30);
-		_gc.strokeOval(60, 60, 30, 30);
-		_gc.fillRoundRect(110, 60, 30, 30, 10, 10);
-		_gc.strokeRoundRect(160, 60, 30, 30, 10, 10);
-		_gc.fillArc(10, 110, 30, 30, 45, 240, ArcType.OPEN);
-		_gc.fillArc(60, 110, 30, 30, 45, 240, ArcType.CHORD);
-		_gc.fillArc(110, 110, 30, 30, 45, 240, ArcType.ROUND);
-		_gc.strokeArc(10, 160, 30, 30, 45, 240, ArcType.OPEN);
-		_gc.strokeArc(60, 160, 30, 30, 45, 240, ArcType.CHORD);
-		_gc.strokeArc(110, 160, 30, 30, 45, 240, ArcType.ROUND);
-		_gc.fillPolygon(new double[] { 10, 40, 10, 40 }, new double[] { 210, 210, 240, 240 }, 4);
-		_gc.strokePolygon(new double[] { 60, 90, 60, 90 }, new double[] { 210, 210, 240, 240 }, 4);
-		_gc.strokePolyline(new double[] { 110, 140, 110, 140 }, new double[] { 210, 210, 240, 240 }, 4);*/
+		_animationTimer = new AnimationTimer() {
+			
+			@Override
+			public void handle(long now)
+			{
+				_drawingManager.draw();
+				
+			}
+		};
 		
 		_gameLogicExecutor.StartGame();
+		_animationTimer.start();
 	}
 
 	@Override
@@ -89,8 +88,12 @@ public class GameStage extends StrgWar.stage.Stage
 	{
 		_gameLogicExecutor.StopGame();
 		
-		for ( Thread thread : _players)
+		_animationTimer.stop();
+		
+		for ( Thread thread : _threads)
 			thread.interrupt();
+		
+		
 	}
 
 	public String GetName()
@@ -103,9 +106,13 @@ public class GameStage extends StrgWar.stage.Stage
 	private javafx.stage.Stage _primaryStage;
 	private Scene _gameScene;
 	
+	private DrawingManager _drawingManager;
+	
 	private GameLogicExecutor _gameLogicExecutor;
 	private MapFromFileProvider _mffp;
 	
-	private ArrayList<Thread> _players;
+	private ArrayList<Thread> _threads;
 	private Pane _root;
+	
+	private AnimationTimer _animationTimer;
 }

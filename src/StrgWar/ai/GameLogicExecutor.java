@@ -19,7 +19,7 @@ public class GameLogicExecutor implements ICommandExecutor, ISentUnitsManager, R
 		
 		_map = changeableMapProvider.GetChangeableMap();
 		
-		_map.nodes.forEach(node -> node.SetUnitsReceiver(this));
+		_map.Nodes.forEach(node -> node.SetUnitsReceiver(this));
 		
 		_isGameStarted = false;
 		
@@ -55,8 +55,16 @@ public class GameLogicExecutor implements ICommandExecutor, ISentUnitsManager, R
 					
 					if (origin != null && destination != null)
 					{
-						origin.StartSendingUnitsTo(destination);
-						_logger.log(Level.FINE, "Player (" + abstractActor.GetName() + " starts sending units from " +  actorCommand.GetOrigin() + " to " + destination.GetMapElementName());
+						
+						if (origin.GetOccupantName().compareTo(abstractActor.GetName()) == 0)
+						{
+							origin.StartSendingUnitsTo(destination);
+							_logger.log(Level.FINE, "Player (" + abstractActor.GetName() + " starts sending units from " +  actorCommand.GetOrigin() + " to " + destination.GetMapElementName());
+						}
+						else
+						{
+							_logger.log( Level.INFO, "Command to non owned city");
+						}
 					}
 					else
 					{
@@ -66,25 +74,31 @@ public class GameLogicExecutor implements ICommandExecutor, ISentUnitsManager, R
 					break;
 					
 				case STOP_SENDING :
-					
-					ChangeableNode nd = _map.Find(actorCommand.GetOrigin());
-					
-					if (nd != null)
-					{
-						nd.StopSendingUnits();
-						_logger.log(Level.FINE, "Player (" + abstractActor.GetName() + " stops sending units from " +  actorCommand.GetOrigin());
-					}
-					else
-					{
-						_logger.log(Level.FINE, "Wrong city name (" + actorCommand.GetOrigin() + ") from player " + abstractActor.GetName());
-					}
-
-					break;
-					
+						
+						ChangeableNode nd = _map.Find(actorCommand.GetOrigin());
+						
+						if (nd != null)
+						{
+							if (nd.GetOccupantName().compareTo(abstractActor.GetName()) == 0)
+							{		
+								nd.StopSendingUnits();
+								_logger.log(Level.FINE, "Player (" + abstractActor.GetName() + " stops sending units from " +  actorCommand.GetOrigin());
+							}
+							else
+							{
+								_logger.log( Level.INFO, "Command to non owned city");
+							}
+						}
+						else
+						{
+							_logger.log(Level.FINE, "Wrong city name (" + actorCommand.GetOrigin() + ") from player " + abstractActor.GetName());
+						}
+	
+						break;
+						
 				default :
-					_logger.log( Level.WARNING, "Unexpected command type");
-					break;
-					
+						_logger.log( Level.WARNING, "Unexpected command type");
+						break;
 			}
 		}
 		finally
@@ -96,7 +110,7 @@ public class GameLogicExecutor implements ICommandExecutor, ISentUnitsManager, R
 	@Override
 	public void ReceiveUnits(GameUnit gu)
 	{
-		
+		_pendingUnits.add(gu);
 	}
 	
 	@Override
@@ -106,7 +120,7 @@ public class GameLogicExecutor implements ICommandExecutor, ISentUnitsManager, R
 		{
 			_pendingUnits.forEach(g -> g.Update(100));
 
-			for (ChangeableNode node : _map.nodes)
+			for (ChangeableNode node : _map.Nodes)
 			{
 				node.Update(100);
 			}
