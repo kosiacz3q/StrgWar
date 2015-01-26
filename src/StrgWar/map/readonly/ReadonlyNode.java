@@ -97,9 +97,9 @@ public class ReadonlyNode implements IDrawable
 	}
 	
 	@Override
-	public void Draw(GraphicsContext gc)
+	public void Draw(GraphicsContext gc, Pane root)
 	{
-		Color color = Color.BLACK;// Color.rgb(205, 192, 176); //neutralny
+		/*Color color = Color.BLACK;// Color.rgb(205, 192, 176); //neutralny
 		
 		gc.setLineWidth(5);
 		gc.setStroke(color);
@@ -114,7 +114,9 @@ public class ReadonlyNode implements IDrawable
 		gc.setFill(color);
 		gc.setTextAlign(TextAlignment.CENTER);
 
-		gc.fillText(Integer.toString(_occupantSize), _position.getX(), _position.getY());	
+		gc.fillText(Integer.toString(_occupantSize), _position.getX(), _position.getY());*/
+		
+		RedrawNode(gc, root, Color.BLACK, (int)_position.getX(), (int)_position.getY(), _radius);
 	}
 
 	protected int _occupantSize;
