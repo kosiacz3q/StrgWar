@@ -45,7 +45,7 @@ public class MapFromXmlLoader implements IMapLoader
 			rn.unitsPerSecond = Integer.parseInt(_actNode.getAttributes().getNamedItem("unitsPerSecond").getNodeValue());
 			rn.x = Integer.parseInt(_actNode.getAttributes().getNamedItem("x").getNodeValue());
 			rn.y = Integer.parseInt(_actNode.getAttributes().getNamedItem("y").getNodeValue());
-			
+			rn.r = Integer.parseInt(_actNode.getAttributes().getNamedItem("r").getNodeValue());
 			list.add(rn);
 			
 			do

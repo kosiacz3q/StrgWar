@@ -44,7 +44,7 @@ public class MapFromFileProvider implements IChangeableMapProvider, IReadonlyMap
 		
 		for (RawNode rn : _loader.GetNodes())
 		{
-			ChangeableNode nd = new ChangeableNode(rn.name, rn.occupant, rn.startSize, rn.unitsPerSecond);
+			ChangeableNode nd = new ChangeableNode(rn.name, rn.occupant, rn.startSize, rn.unitsPerSecond, rn.r);
 			
 			nd.SetPosition(new Point2D(rn.x, rn.y));
 			

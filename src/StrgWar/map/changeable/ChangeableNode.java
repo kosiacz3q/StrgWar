@@ -7,7 +7,7 @@ import StrgWar.map.readonly.ReadonlyNode;
 
 public class ChangeableNode extends ReadonlyNode implements IUpdateable
 {
-	public ChangeableNode(String mapElementName, String occupant, int startSize, int income)
+	public ChangeableNode(String mapElementName, String occupant, int startSize, int income, int radius)
 	{
 		super(mapElementName);
 		
@@ -16,7 +16,7 @@ public class ChangeableNode extends ReadonlyNode implements IUpdateable
 		_occupantSize = startSize;
 		
 		sendingTarget = null;
-		
+		_radius = radius;
 		_accumulatedTime = 0;
 	}
 	

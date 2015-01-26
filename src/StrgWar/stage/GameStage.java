@@ -10,9 +10,11 @@ import org.xml.sax.SAXException;
 import StrgWar.ai.GameLogicExecutor;
 import StrgWar.ai.implementations.LKosiakAI;
 import StrgWar.ai.implementations.PlayerActor;
+import StrgWar.gui.DrawingManager;
 import StrgWar.gui.effects.SimpleLineDrawer;
 import StrgWar.map.loader.MapFromXmlLoader;
 import StrgWar.map.providers.MapFromFileProvider;
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -41,6 +43,8 @@ public class GameStage extends StrgWar.stage.Stage
 		 _threads = new ArrayList<Thread>();
 		 
 		 _root = root;
+		 
+		 _drawingManager = new DrawingManager(_gc);
 	}
 
 	@Override
@@ -48,6 +52,10 @@ public class GameStage extends StrgWar.stage.Stage
 	{
 		_primaryStage.setScene(_gameScene);
 		_primaryStage.show();
+		
+		_mffp.GetReadOnlyMap().nodes.forEach(node -> _drawingManager.Register( node));
+		
+		//_threads.add(new Thread(_drawingManager));
 		
 		_threads.add(new Thread(_gameLogicExecutor));
 		
@@ -61,8 +69,17 @@ public class GameStage extends StrgWar.stage.Stage
 			thread.start();
 		
 		_gc.setFill(Color.GREEN);
+	
 		
-		_mffp.GetReadOnlyMap().DrawMap(_gc);
+		_animationTimer = new AnimationTimer() {
+			
+			@Override
+			public void handle(long now)
+			{
+				_drawingManager.draw();
+				
+			}
+		};
 		
 		/*
 		_gc.setStroke(Color.BLUE);
@@ -83,6 +100,7 @@ public class GameStage extends StrgWar.stage.Stage
 		_gc.strokePolyline(new double[] { 110, 140, 110, 140 }, new double[] { 210, 210, 240, 240 }, 4);*/
 		
 		_gameLogicExecutor.StartGame();
+		_animationTimer.start();
 	}
 
 	@Override
@@ -90,8 +108,12 @@ public class GameStage extends StrgWar.stage.Stage
 	{
 		_gameLogicExecutor.StopGame();
 		
+		_animationTimer.stop();
+		
 		for ( Thread thread : _threads)
 			thread.interrupt();
+		
+		
 	}
 
 	public String GetName()
@@ -104,9 +126,13 @@ public class GameStage extends StrgWar.stage.Stage
 	private javafx.stage.Stage _primaryStage;
 	private Scene _gameScene;
 	
+	private DrawingManager _drawingManager;
+	
 	private GameLogicExecutor _gameLogicExecutor;
 	private MapFromFileProvider _mffp;
 	
 	private ArrayList<Thread> _threads;
 	private Pane _root;
+	
+	private AnimationTimer _animationTimer;
 }
