@@ -8,11 +8,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import StrgWar.ai.GameLogicExecutor;
+import StrgWar.ai.implementations.HDmowskaAI;
 import StrgWar.ai.implementations.LKosiakAI;
 import StrgWar.ai.implementations.PlayerActor;
 import StrgWar.gui.effects.SimpleLineDrawer;
 import StrgWar.map.loader.MapFromXmlLoader;
 import StrgWar.map.providers.MapFromFileProvider;
+import StrgWar.map.readonly.ReadonlyNode;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -38,7 +40,7 @@ public class GameStage extends StrgWar.stage.Stage
 		 
 		 _gameLogicExecutor = new GameLogicExecutor(_mffp);
 		 
-		 _threads = new ArrayList<Thread>();
+		 _players = new ArrayList<Thread>();
 		 
 		 _root = root;
 	}
@@ -49,15 +51,13 @@ public class GameStage extends StrgWar.stage.Stage
 		_primaryStage.setScene(_gameScene);
 		_primaryStage.show();
 		
-		_threads.add(new Thread(_gameLogicExecutor));
+		_players.add(new Thread(new HDmowskaAI(_gameLogicExecutor, _mffp, "player1")));
 		
-		_threads.add(new Thread(new  LKosiakAI(_gameLogicExecutor, _mffp, "kosiacz3q_1")));
+		_players.add(new Thread(new LKosiakAI(_gameLogicExecutor, _mffp, "player2")));
 		
-		//_players.add(new Thread(new  LKosiakAI(_gameLogicExecutor, _mffp, "kosiacz3q_2")));
+		//_players.add(new Thread(new PlayerActor(_gameLogicExecutor, _mffp, _root, new SimpleLineDrawer(_root))));
 		
-		_threads.add(new Thread(new PlayerActor(_gameLogicExecutor, _mffp, _root, new SimpleLineDrawer(_root))));
-		
-		for ( Thread thread : _threads)
+		for ( Thread thread : _players)
 			thread.start();
 		
 		_gc.setFill(Color.GREEN);
@@ -90,7 +90,7 @@ public class GameStage extends StrgWar.stage.Stage
 	{
 		_gameLogicExecutor.StopGame();
 		
-		for ( Thread thread : _threads)
+		for ( Thread thread : _players)
 			thread.interrupt();
 	}
 
@@ -107,6 +107,6 @@ public class GameStage extends StrgWar.stage.Stage
 	private GameLogicExecutor _gameLogicExecutor;
 	private MapFromFileProvider _mffp;
 	
-	private ArrayList<Thread> _threads;
+	private ArrayList<Thread> _players;
 	private Pane _root;
 }

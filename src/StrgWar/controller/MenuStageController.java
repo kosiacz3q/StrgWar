@@ -29,8 +29,8 @@ public class MenuStageController extends AbstractController {
 
 	public MenuStageController() throws IOException {
 		algorithm1Data.add("Kosiak");
-		algorithm1Data.add("Szczepañski");
-		algorithm1Data.add("Trawiñski");
+		algorithm1Data.add("Szczepaï¿½ski");
+		algorithm1Data.add("Trawiï¿½ski");
 		algorithm1Data.add("Dmowska");
 
 		String rootDir = new File(".").getCanonicalPath();
