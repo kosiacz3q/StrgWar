@@ -14,7 +14,6 @@ public class ChangeableMap
 	
 	public final ArrayList<ChangeableNode> Nodes;
 	
-	
 	public ChangeableNode Find(String name)
 	{
 		for (ChangeableNode node : Nodes)
