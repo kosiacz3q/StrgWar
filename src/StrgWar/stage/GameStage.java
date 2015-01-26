@@ -44,7 +44,7 @@ public class GameStage extends StrgWar.stage.Stage
 		 
 		 _root = root;
 		 
-		 _drawingManager = new DrawingManager(_gc);
+		 _drawingManager = new DrawingManager(_gc, _root);
 	}
 
 	@Override

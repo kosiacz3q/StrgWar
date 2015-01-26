@@ -3,7 +3,14 @@ package StrgWar.map.readonly;
 import StrgWar.gui.IDrawable;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.CubicCurveTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
@@ -17,7 +24,42 @@ public class ReadonlyNode implements IDrawable
 		_occupantSize = 0;
 		_income = 0;
 	}
+
+	public void PrintNode(GraphicsContext gc, Pane root, Color color, int x, int y, int r) {
+		if(color == null)
+			color = Color.BLACK;// Color.rgb(205, 192, 176); //neutralny
+		
+		gc.setLineWidth(5);
+		gc.setStroke(color);
+		
+		Button btn = new Button();
+		//btn.setId(_mapElementName);
+		btn.setText(Integer.toString(_occupantSize));
+		btn.setShape(createNodeShape(r));
+		btn.setLayoutX(x);
+		btn.setLayoutX(y);
+		root.getChildren().add(btn);
+
+		/*gc.strokeOval(x, y, 2 * r, 2 * r);
+			
+		gc.setFont(Font.font("Calibri", 20));
+		gc.setFill(color);
+		gc.setTextAlign(TextAlignment.CENTER);
+
+		gc.fillText(Integer.toString(_occupantSize), x + r, y + r);*/
+	}
 	
+	public void RedrawNode(GraphicsContext gc, Pane root, Color color, int x, int y, int r) {
+		gc.clearRect(x, y, 2 *r, 2 * r);
+		PrintNode(gc, root, color, x, y, r);
+	}
+	
+	public Shape createNodeShape(double r) {
+		Circle circle = new Circle(r);
+		
+		return circle;
+	}
+
 	public void SetPosition(Point2D position)
 	{
 		_position = position;
@@ -55,9 +97,9 @@ public class ReadonlyNode implements IDrawable
 	}
 	
 	@Override
-	public void Draw(GraphicsContext gc)
+	public void Draw(GraphicsContext gc, Pane root)
 	{
-		Color color = Color.BLACK;// Color.rgb(205, 192, 176); //neutralny
+		/*Color color = Color.BLACK;// Color.rgb(205, 192, 176); //neutralny
 		
 		gc.setLineWidth(5);
 		gc.setStroke(color);
@@ -72,7 +114,9 @@ public class ReadonlyNode implements IDrawable
 		gc.setFill(color);
 		gc.setTextAlign(TextAlignment.CENTER);
 
-		gc.fillText(Integer.toString(_occupantSize), _position.getX(), _position.getY());	
+		gc.fillText(Integer.toString(_occupantSize), _position.getX(), _position.getY());*/
+		
+		RedrawNode(gc, root, Color.BLACK, (int)_position.getX(), (int)_position.getY(), _radius);
 	}
 
 	protected int _occupantSize;
