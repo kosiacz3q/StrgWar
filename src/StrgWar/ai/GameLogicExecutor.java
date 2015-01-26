@@ -1,14 +1,17 @@
 package StrgWar.ai;
 
+import java.util.ArrayList;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import StrgWar.map.GameUnit;
+import StrgWar.map.ISentUnitsManager;
 import StrgWar.map.changeable.ChangeableMap;
 import StrgWar.map.changeable.ChangeableNode;
 import StrgWar.map.changeable.IChangeableMapProvider;
 
-public class GameLogicExecutor implements ICommandExecutor
+public class GameLogicExecutor implements ICommandExecutor, ISentUnitsManager, Runnable
 {
 	public GameLogicExecutor(IChangeableMapProvider changeableMapProvider)
 	{
@@ -16,7 +19,11 @@ public class GameLogicExecutor implements ICommandExecutor
 		
 		_map = changeableMapProvider.GetChangeableMap();
 		
+		_map.nodes.forEach(node -> node.SetUnitsReceiver(this));
+		
 		_isGameStarted = false;
+		
+		_pendingUnits = new ArrayList<GameUnit>();
 	}
 	
 	public void StartGame()
@@ -86,9 +93,40 @@ public class GameLogicExecutor implements ICommandExecutor
 		}
 	}
 	
+	@Override
+	public void ReceiveUnits(GameUnit gu)
+	{
+		
+	}
+	
+	@Override
+	public void run()
+	{
+		while(true)
+		{
+			_pendingUnits.forEach(g -> g.Update(100));
+
+			for (ChangeableNode node : _map.nodes)
+			{
+				node.Update(100);
+			}
+			
+			try
+			{
+				Thread.sleep(100);
+			}
+			catch (InterruptedException e)
+			{
+				break;
+			}
+		}
+		
+	}
+	
 	private final ReentrantLock _commandExecuteLock;
 	private final ChangeableMap _map;
 	private boolean _isGameStarted;
-	private static final Logger _logger = Logger.getLogger( GameLogicExecutor.class.getName() );
+	private ArrayList<GameUnit> _pendingUnits;
 	
+	private static final Logger _logger = Logger.getLogger( GameLogicExecutor.class.getName() );
 }

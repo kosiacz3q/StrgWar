@@ -7,7 +7,6 @@ import StrgWar.ai.AbstractActor;
 import StrgWar.ai.GameLogicExecutor;
 import StrgWar.ai.ICommandExecutor;
 import StrgWar.ai.StartSendingUnits;
-import StrgWar.ai.StopSendingCommand;
 import StrgWar.map.readonly.IReadonlyMapProvider;
 import StrgWar.map.readonly.ReadonlyMap;
 import StrgWar.map.readonly.ReadonlyNode;
@@ -60,7 +59,7 @@ public class LKosiakAI extends AbstractActor
 			
 			
 			//wysy³amy jednostki 
-			_logger.log(Level.INFO, "units from " + nodeWithMaxOfOurUnits.GetMapElementName() + " to " + nodeWithMinCountOfEnemy.GetMapElementName());
+			_logger.log(Level.INFO, "units from " + nodeWithMaxOfOurUnits.GetMapElementName() + "(" + nodeWithMaxOfOurUnits.GetOccupantArmySize()  +")" + " to " + nodeWithMinCountOfEnemy.GetMapElementName() + "(" + nodeWithMinCountOfEnemy.GetOccupantArmySize() + ")");
 			_commandExecutor.ExecuteCommand(this, new StartSendingUnits(
 													nodeWithMaxOfOurUnits.GetMapElementName(), //sk¹d
 													nodeWithMinCountOfEnemy.GetMapElementName())); //dok¹d

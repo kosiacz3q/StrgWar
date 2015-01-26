@@ -1,10 +1,5 @@
 package StrgWar.map.changeable;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import StrgWar.core.IUpdateable;
 import StrgWar.map.GameUnit;
 import StrgWar.map.ISentUnitsManager;
@@ -40,6 +35,24 @@ public class ChangeableNode extends ReadonlyNode implements IUpdateable
 		sendingTarget = null;
 	}
 	
+	public void AddUnits(GameUnit gameUnit)
+	{
+		if (gameUnit.Owner.compareTo(_occupantName) == 0)
+		{
+			_occupantSize += gameUnit.Count;
+		}
+		else
+		{
+			_occupantSize -= gameUnit.Count;
+			
+			if (_occupantSize <= 0)
+			{
+				_occupantSize = -_occupantSize;
+				_occupantName = gameUnit.Owner;
+			}
+		}
+	}
+	
 	@Override
 	public void Update(float time)
 	{
@@ -49,18 +62,24 @@ public class ChangeableNode extends ReadonlyNode implements IUpdateable
 		{
 			if (sendingTarget != null)
 			{
-				for (int i = 0; i < unitPer100Milisecond; ++i)
-				{
-					_sentUnitsManager.ReceiveUnits(new GameUnit(this, sendingTarget) );
-				}
+					if (_occupantSize > 1)
+					{
+						int unitsToSend = _unitsPerSend % (_occupantSize);
+
+						if (unitsToSend > 0)
+						{
+							_sentUnitsManager.ReceiveUnits(new GameUnit(this, sendingTarget, _occupantName, unitsToSend ));
+							_occupantSize -= unitsToSend;
+						}
+					}
 			}
 			
 			_accumulatedTime -= 100;
 		}
 	}
 	
+	private final int _unitsPerSend = 1;
 	private float _accumulatedTime;
-	private final int unitPer100Milisecond = 5;
 	private ISentUnitsManager _sentUnitsManager;
 	private ChangeableNode sendingTarget;
 }

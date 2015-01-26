@@ -11,7 +11,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
@@ -51,7 +50,7 @@ public class MapFromXmlLoader implements IMapLoader
 			
 			do
 			{
-			_actNode = _actNode.getNextSibling();
+				_actNode = _actNode.getNextSibling();
 			}while(_actNode != null && !(_actNode instanceof Element));
 		}
 		

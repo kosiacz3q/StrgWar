@@ -19,7 +19,7 @@ public class ReadonlyNode
 	
 	public void PrintNode(GraphicsContext gc, Color color, int x, int y, int r) {
 		if(color == null)
-			color = Color.rgb(205, 192, 176); //neutralny
+			color = Color.BLACK;// Color.rgb(205, 192, 176); //neutralny
 		
 		gc.setLineWidth(5);
 		gc.setStroke(color);

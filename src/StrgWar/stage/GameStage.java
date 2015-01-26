@@ -13,7 +13,6 @@ import StrgWar.ai.implementations.PlayerActor;
 import StrgWar.gui.effects.SimpleLineDrawer;
 import StrgWar.map.loader.MapFromXmlLoader;
 import StrgWar.map.providers.MapFromFileProvider;
-import StrgWar.map.readonly.ReadonlyNode;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -39,7 +38,7 @@ public class GameStage extends StrgWar.stage.Stage
 		 
 		 _gameLogicExecutor = new GameLogicExecutor(_mffp);
 		 
-		 _players = new ArrayList<Thread>();
+		 _threads = new ArrayList<Thread>();
 		 
 		 _root = root;
 	}
@@ -50,13 +49,15 @@ public class GameStage extends StrgWar.stage.Stage
 		_primaryStage.setScene(_gameScene);
 		_primaryStage.show();
 		
-		_players.add(new Thread(new  LKosiakAI(_gameLogicExecutor, _mffp, "kosiacz3q_1")));
+		_threads.add(new Thread(_gameLogicExecutor));
+		
+		_threads.add(new Thread(new  LKosiakAI(_gameLogicExecutor, _mffp, "kosiacz3q_1")));
 		
 		//_players.add(new Thread(new  LKosiakAI(_gameLogicExecutor, _mffp, "kosiacz3q_2")));
 		
-		_players.add(new Thread(new PlayerActor(_gameLogicExecutor, _mffp, _root, new SimpleLineDrawer(_root))));
+		_threads.add(new Thread(new PlayerActor(_gameLogicExecutor, _mffp, _root, new SimpleLineDrawer(_root))));
 		
-		for ( Thread thread : _players)
+		for ( Thread thread : _threads)
 			thread.start();
 		
 		_gc.setFill(Color.GREEN);
@@ -89,7 +90,7 @@ public class GameStage extends StrgWar.stage.Stage
 	{
 		_gameLogicExecutor.StopGame();
 		
-		for ( Thread thread : _players)
+		for ( Thread thread : _threads)
 			thread.interrupt();
 	}
 
@@ -106,6 +107,6 @@ public class GameStage extends StrgWar.stage.Stage
 	private GameLogicExecutor _gameLogicExecutor;
 	private MapFromFileProvider _mffp;
 	
-	private ArrayList<Thread> _players;
+	private ArrayList<Thread> _threads;
 	private Pane _root;
 }
