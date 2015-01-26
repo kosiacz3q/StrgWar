@@ -2,7 +2,14 @@ package StrgWar.map.readonly;
 
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.CubicCurveTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
@@ -17,25 +24,39 @@ public class ReadonlyNode
 		_income = 0;
 	}
 	
-	public void PrintNode(GraphicsContext gc, Color color, int x, int y, int r) {
+	public void PrintNode(GraphicsContext gc, Pane root, Color color, int x, int y, int r) {
 		if(color == null)
 			color = Color.BLACK;// Color.rgb(205, 192, 176); //neutralny
 		
 		gc.setLineWidth(5);
 		gc.setStroke(color);
+		
+		Button btn = new Button();
+		//btn.setId(_mapElementName);
+		btn.setText(Integer.toString(_occupantSize));
+		btn.setShape(createNodeShape(r));
+		btn.setLayoutX(x);
+		btn.setLayoutX(y);
+		root.getChildren().add(btn);
 
-		gc.strokeOval(x, y, 2 * r, 2 * r);
+		/*gc.strokeOval(x, y, 2 * r, 2 * r);
 			
 		gc.setFont(Font.font("Calibri", 20));
 		gc.setFill(color);
 		gc.setTextAlign(TextAlignment.CENTER);
 
-		gc.fillText(Integer.toString(_occupantSize), x + r, y + r);
+		gc.fillText(Integer.toString(_occupantSize), x + r, y + r);*/
 	}
 	
-	public void RedrawNode(GraphicsContext gc, Color color, int x, int y, int r) {
+	public void RedrawNode(GraphicsContext gc, Pane root, Color color, int x, int y, int r) {
 		gc.clearRect(x, y, 2 *r, 2 * r);
-		PrintNode(gc, color, x, y, r);
+		PrintNode(gc, root, color, x, y, r);
+	}
+	
+	public Shape createNodeShape(double r) {
+		Circle circle = new Circle(r);
+		
+		return circle;
 	}
 	
 	public void SetPosition(Point2D position)

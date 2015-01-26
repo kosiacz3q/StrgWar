@@ -61,6 +61,7 @@ public class MenuStageController extends AbstractController {
 				System.out.println("brak danych");
 			else {
 				_stageSetter.SetStage("GAME");
+				//SetAlgorithms(algorithm1Choice, algorithm2Choice); 
 			}
 		});
 	}
