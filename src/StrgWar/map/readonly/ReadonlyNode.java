@@ -62,14 +62,17 @@ public class ReadonlyNode implements IDrawable
 		gc.setLineWidth(5);
 		gc.setStroke(color);
 
-		gc.strokeOval(_position.getX(), _position.getY(), 2 * _radius, 2 * _radius);
+		gc.strokeOval(
+				_position.getX() - _radius / 2, 
+				_position.getY() - _radius / 2,
+				_radius,
+				_radius);
 			
 		gc.setFont(Font.font("Calibri", 20));
 		gc.setFill(color);
 		gc.setTextAlign(TextAlignment.CENTER);
 
-		gc.fillText(Integer.toString(_occupantSize), _position.getX() + _radius, _position.getY() + _radius);
-		
+		gc.fillText(Integer.toString(_occupantSize), _position.getX(), _position.getY());	
 	}
 
 	protected int _occupantSize;

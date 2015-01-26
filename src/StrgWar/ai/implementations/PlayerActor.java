@@ -91,7 +91,7 @@ public class PlayerActor extends AbstractActor
 	@Override
 	public String GetName()
 	{
-		return  "Player";
+		return  "player2";
 	}
 
 	private ReadonlyMap _map;
@@ -99,5 +99,5 @@ public class PlayerActor extends AbstractActor
 	private ILineDrawer _lineDrawer;
 	private Point2D origin;
 	private static AbstractActor _playerWrapper;
-	private static final Logger _logger = Logger.getLogger( GameLogicExecutor.class.getName() );
+	private static final Logger _logger = Logger.getLogger( PlayerActor.class.getName() );
 }

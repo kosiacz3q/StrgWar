@@ -55,11 +55,9 @@ public class GameStage extends StrgWar.stage.Stage
 		
 		_mffp.GetReadOnlyMap().Nodes.forEach(node -> _drawingManager.Register( node));
 		
-		//_threads.add(new Thread(_drawingManager));
-		
 		_threads.add(new Thread(_gameLogicExecutor));
 		
-		_threads.add(new Thread(new  LKosiakAI(_gameLogicExecutor, _mffp, "kosiacz3q_1")));
+		_threads.add(new Thread(new  LKosiakAI(_gameLogicExecutor, _mffp, "player1")));
 		
 		//_players.add(new Thread(new  LKosiakAI(_gameLogicExecutor, _mffp, "kosiacz3q_2")));
 		
@@ -80,24 +78,6 @@ public class GameStage extends StrgWar.stage.Stage
 				
 			}
 		};
-		
-		/*
-		_gc.setStroke(Color.BLUE);
-		_gc.setLineWidth(5);
-		_gc.strokeLine(40, 10, 10, 40);
-		_gc.fillOval(10, 60, 30, 30);
-		_gc.strokeOval(60, 60, 30, 30);
-		_gc.fillRoundRect(110, 60, 30, 30, 10, 10);
-		_gc.strokeRoundRect(160, 60, 30, 30, 10, 10);
-		_gc.fillArc(10, 110, 30, 30, 45, 240, ArcType.OPEN);
-		_gc.fillArc(60, 110, 30, 30, 45, 240, ArcType.CHORD);
-		_gc.fillArc(110, 110, 30, 30, 45, 240, ArcType.ROUND);
-		_gc.strokeArc(10, 160, 30, 30, 45, 240, ArcType.OPEN);
-		_gc.strokeArc(60, 160, 30, 30, 45, 240, ArcType.CHORD);
-		_gc.strokeArc(110, 160, 30, 30, 45, 240, ArcType.ROUND);
-		_gc.fillPolygon(new double[] { 10, 40, 10, 40 }, new double[] { 210, 210, 240, 240 }, 4);
-		_gc.strokePolygon(new double[] { 60, 90, 60, 90 }, new double[] { 210, 210, 240, 240 }, 4);
-		_gc.strokePolyline(new double[] { 110, 140, 110, 140 }, new double[] { 210, 210, 240, 240 }, 4);*/
 		
 		_gameLogicExecutor.StartGame();
 		_animationTimer.start();

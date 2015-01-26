@@ -59,7 +59,8 @@ public class LKosiakAI extends AbstractActor
 			
 			
 			//wysy³amy jednostki 
-			_logger.log(Level.INFO, "units from " + nodeWithMaxOfOurUnits.GetMapElementName() + "(" + nodeWithMaxOfOurUnits.GetOccupantArmySize()  +")" + " to " + nodeWithMinCountOfEnemy.GetMapElementName() + "(" + nodeWithMinCountOfEnemy.GetOccupantArmySize() + ")");
+			_logger.log(Level.FINE, "units from " + nodeWithMaxOfOurUnits.GetMapElementName() + "(" + nodeWithMaxOfOurUnits.GetOccupantArmySize()  +")" + " to " + nodeWithMinCountOfEnemy.GetMapElementName() + "(" + nodeWithMinCountOfEnemy.GetOccupantArmySize() + ")");
+			
 			_commandExecutor.ExecuteCommand(this, new StartSendingUnits(
 													nodeWithMaxOfOurUnits.GetMapElementName(), //sk¹d
 													nodeWithMinCountOfEnemy.GetMapElementName())); //dok¹d
