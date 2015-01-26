@@ -32,7 +32,9 @@ public class PlayerActor extends AbstractActor
 			  @Override public void handle(MouseEvent mouseEvent) {
 				  root.setCursor(Cursor.HAND);
 				  
-				  _lineDrawer.DrawLine(origin, new Point2D(mouseEvent.getX(), mouseEvent.getY()));
+				  Point2D dest =  new Point2D(mouseEvent.getX(), mouseEvent.getY());
+				  
+				  _lineDrawer.DrawLine(origin,dest);
 				  
 			  }
 			});

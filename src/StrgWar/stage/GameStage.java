@@ -53,7 +53,7 @@ public class GameStage extends StrgWar.stage.Stage
 		_primaryStage.setScene(_gameScene);
 		_primaryStage.show();
 		
-		_mffp.GetReadOnlyMap().nodes.forEach(node -> _drawingManager.Register( node));
+		_mffp.GetReadOnlyMap().Nodes.forEach(node -> _drawingManager.Register( node));
 		
 		//_threads.add(new Thread(_drawingManager));
 		

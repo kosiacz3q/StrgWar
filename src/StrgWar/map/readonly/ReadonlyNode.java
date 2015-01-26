@@ -49,6 +49,11 @@ public class ReadonlyNode implements IDrawable
 		return _position;
 	}
 	
+	public float GetRadius()
+	{
+		return _radius;
+	}
+	
 	@Override
 	public void Draw(GraphicsContext gc)
 	{

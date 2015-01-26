@@ -19,7 +19,7 @@ public class GameLogicExecutor implements ICommandExecutor, ISentUnitsManager, R
 		
 		_map = changeableMapProvider.GetChangeableMap();
 		
-		_map.nodes.forEach(node -> node.SetUnitsReceiver(this));
+		_map.Nodes.forEach(node -> node.SetUnitsReceiver(this));
 		
 		_isGameStarted = false;
 		
@@ -112,7 +112,7 @@ public class GameLogicExecutor implements ICommandExecutor, ISentUnitsManager, R
 		{
 			_pendingUnits.forEach(g -> g.Update(100));
 
-			for (ChangeableNode node : _map.nodes)
+			for (ChangeableNode node : _map.Nodes)
 			{
 				node.Update(100);
 			}
