@@ -61,13 +61,7 @@ public class GameStage extends StrgWar.stage.Stage
 		
 		_gc.setFill(Color.GREEN);
 		
-		for(ReadonlyNode node : _mffp.GetReadOnlyMap().nodes)
-		{
-			int x = (int)node.GetPosition().getX();
-			int y = (int)node.GetPosition().getY();
-			
-			node.PrintNode(_gc, null, x, y, 50); 
-		}
+		_mffp.GetReadOnlyMap().DrawMap(_gc);
 		
 		/*
 		_gc.setStroke(Color.BLUE);

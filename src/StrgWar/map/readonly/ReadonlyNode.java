@@ -27,6 +27,11 @@ public class ReadonlyNode
 		gc.strokeText(Integer.toString(_occupantSize), x + r, y + r);	
 	}
 	
+	public void RedrawNode(GraphicsContext gc, Color color, int x, int y, int r) {
+		gc.clearRect(x, y, 2 *r, 2 * r);
+		PrintNode(gc, color, x, y, r);
+	}
+	
 	public void SetPosition(Point2D position)
 	{
 		_position = position;
