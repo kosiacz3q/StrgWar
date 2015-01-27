@@ -2,10 +2,10 @@
 	-fx-min-width: 50px;
 	-fx-min-height: 50px;
 	-fx-background-insets: 0px;
-	-fx-border-color: #606060 ;
+	-fx-border-color: #C06060 ;
 	-fx-border-width: 2px;
     -fx-border-style: solid;
-    -fx-background-color: #606060;
+    -fx-background-color: #dddddd;
 }
 
 .button:hover {
@@ -15,4 +15,13 @@
 
 .button .text {
 	-fx-font: 20px Tahoma;
+}
+
+.combo-box {
+	-fx-min-width: 100px;
+	-fx-min-height: 30px;
+}
+.label {
+	-fx-min-width: 100px;
+	-fx-min-height: 30px;
 }
