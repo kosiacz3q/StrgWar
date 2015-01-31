@@ -28,9 +28,10 @@ public class MenuStageController extends AbstractController {
 	private Button btnStart;
 
 	public MenuStageController() throws IOException {
+		algorithm1Data.add("PLAYER");
 		algorithm1Data.add("Kosiak");
-		algorithm1Data.add("Szczepaï¿½ski");
-		algorithm1Data.add("Trawiï¿½ski");
+		algorithm1Data.add("Szczepanski");
+		algorithm1Data.add("Trawinski");
 		algorithm1Data.add("Dmowska");
 
 		String rootDir = new File(".").getCanonicalPath();
@@ -59,6 +60,9 @@ public class MenuStageController extends AbstractController {
 			if (algorithm1Choice == null || algorithm2Choice == null
 					|| mapChoice == null)
 				System.out.println("brak danych");
+			else if(algorithm1Choice == "PLAYER" && algorithm2Choice == "PLAYER") {
+				System.out.println("dwóch graczy");				
+			}
 			else {
 				_stageSetter.SetStage("GAME");
 				//SetAlgorithms(algorithm1Choice, algorithm2Choice); 
