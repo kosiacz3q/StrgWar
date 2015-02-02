@@ -59,16 +59,16 @@ public class GameLogicExecutor implements ICommandExecutor, ISentUnitsManager, R
 						if (origin.GetOccupantName().compareTo(abstractActor.GetName()) == 0)
 						{
 							origin.StartSendingUnitsTo(destination);
-							_logger.log(Level.FINE, "Player (" + abstractActor.GetName() + " starts sending units from " +  actorCommand.GetOrigin() + " to " + destination.GetMapElementName());
+							//_logger.log(Level.FINE, "Player (" + abstractActor.GetName() + " starts sending units from " +  actorCommand.GetOrigin() + " to " + destination.GetMapElementName());
 						}
 						else
 						{
-							_logger.log( Level.INFO, "Command to non owned city");
+							//_logger.log( Level.INFO, "Command to non owned city");
 						}
 					}
 					else
 					{
-						_logger.log(Level.FINE, "Wrong city name (" + actorCommand.GetOrigin() + " or " + actorCommand.GetDestination() + ") from player " + abstractActor.GetName());
+						//_logger.log(Level.FINE, "Wrong city name (" + actorCommand.GetOrigin() + " or " + actorCommand.GetDestination() + ") from player " + abstractActor.GetName());
 					}
 					
 					break;

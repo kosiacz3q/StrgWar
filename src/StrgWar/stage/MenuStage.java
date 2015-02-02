@@ -22,7 +22,7 @@ public class MenuStage extends StrgWar.stage.Stage
 	}
 
 	@Override
-	public void OnStart()
+	public void OnStart(String algorithm1, String algorithm2)
 	{
 		_primaryStage.setScene(_menuScene);
 		_primaryStage.show();
