@@ -22,6 +22,7 @@ public class GameUnit implements IUpdateable
 		if (!IsTravelComplete())
 		{
 			_traveled += _movementSpeed * time;	
+			PrintUnit(_traveled);
 			
 			if (IsTravelComplete())
 				EndTravel();
@@ -46,6 +47,11 @@ public class GameUnit implements IUpdateable
 	private void EndTravel()
 	{
 		_target.AddUnits(this);
+	}
+	
+	private void PrintUnit(float traveled)
+	{
+		System.out.println("przesuwam sie: " + traveled);
 	}
 	
 	private ChangeableNode _target;

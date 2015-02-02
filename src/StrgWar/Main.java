@@ -28,9 +28,10 @@ public class Main extends Application
 			File fXmlFile = new File(subDir, "map0.xml");
 			
 			AbstractController.SetStageSetter(_stageManager);
+			AbstractController.SetAlgorithmSetter(_stageManager);
 			
 			_stageManager.RegisterStage(new MenuStage(primaryStage));
-			_stageManager.RegisterStage(new GameStage(primaryStage , fXmlFile.getAbsolutePath()));
+			_stageManager.RegisterStage(new GameStage(_stageManager, primaryStage , fXmlFile.getAbsolutePath()));
 
 			_stageManager.SetStage("MENU");
 		}
