@@ -8,10 +8,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import StrgWar.ai.GameLogicExecutor;
-import StrgWar.ai.implementations.HDmowskaAI;
 import StrgWar.ai.implementations.LKosiakAI;
 import StrgWar.ai.implementations.PlayerActor;
-import StrgWar.controller.AbstractController;
 import StrgWar.gui.DrawingManager;
 import StrgWar.gui.effects.SimpleLineDrawer;
 import StrgWar.map.loader.MapFromXmlLoader;
@@ -30,25 +28,25 @@ public class GameStage extends StrgWar.stage.Stage
 	{
 		_primaryStage = primaryStage;
 		Pane root = (Pane) FXMLLoader.load(getClass().getResource("../gui/GameView.fxml"));
-
+		
 		_canvas = (Canvas) root.getChildren().get(0);
-
+		
 		_gc = _canvas.getGraphicsContext2D();
-
+		
 		_gameScene = new Scene(root, 900, 600);
 		_gameScene.getStylesheets().add(getClass().getResource("../gui/application.css").toExternalForm());
 		
 		_mffp = new MapFromFileProvider(new MapFromXmlLoader(mapSource));
 		 
-		 _gameLogicExecutor = new GameLogicExecutor(_mffp);
+		_gameLogicExecutor = new GameLogicExecutor(_mffp);
 		 
-		 _threads = new ArrayList<Thread>();
+		_threads = new ArrayList<Thread>();
 		 
-		 _root = root;
+		_root = root;
 		 
-		 _drawingManager = new DrawingManager(_gc, _root);
+		_drawingManager = new DrawingManager(_gc, _root);
 		 
-		 _sm = sm;
+		_sm = sm;
 	}
 
 	@Override
@@ -61,14 +59,13 @@ public class GameStage extends StrgWar.stage.Stage
 		
 		_threads.add(new Thread(_gameLogicExecutor));
 		
-		_threads.add(CreateAIThread(algorithm1, 1)); //player1
-		_threads.add(CreateAIThread(algorithm2, 2)); //player2
+		_threads.add(CreateAIThread(algorithm1, "player1")); //player1
+		_threads.add(CreateAIThread(algorithm2, "player2")); //player2
 		
 		for ( Thread thread : _threads)
 			thread.start();
 		
 		_gc.setFill(Color.GREEN);
-	
 		
 		_animationTimer = new AnimationTimer() {
 			
@@ -76,7 +73,6 @@ public class GameStage extends StrgWar.stage.Stage
 			public void handle(long now)
 			{
 				_drawingManager.draw();
-				
 			}
 		};
 		
@@ -84,13 +80,8 @@ public class GameStage extends StrgWar.stage.Stage
 		_animationTimer.start();
 	}
 	
-	private Thread CreateAIThread(String algorithm, int playerNr) {
-		String playerName = "";
-		if(playerNr == 1)
-			playerName = "player1";
-		else if(playerNr == 2)
-			playerName = "player2";
-		
+	private Thread CreateAIThread(String algorithm, String playerName) 
+	{	
 		System.out.println("algorithm: " + algorithm);
 		
 		switch(algorithm) { //TODO: dodaæ case'y dla pozostalych sztucznych inteligencji
@@ -111,9 +102,7 @@ public class GameStage extends StrgWar.stage.Stage
 		_animationTimer.stop();
 		
 		for ( Thread thread : _threads)
-			thread.interrupt();
-		
-		
+			thread.interrupt();	
 	}
 
 	public String GetName()
