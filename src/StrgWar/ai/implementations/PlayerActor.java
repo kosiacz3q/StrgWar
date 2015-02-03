@@ -19,8 +19,6 @@ import javafx.geometry.Point2D;
 
 public class PlayerActor extends AbstractActor
 {
-	
-	
 	public PlayerActor(ICommandExecutor commandExecutor, IReadonlyMapProvider readonlyMapProvider, Pane root, ILineDrawer lineDrawer)
 	{
 		super(commandExecutor, readonlyMapProvider);

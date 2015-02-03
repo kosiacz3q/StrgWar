@@ -84,13 +84,14 @@ public class GameStage extends StrgWar.stage.Stage
 	{	
 		System.out.println("algorithm: " + algorithm);
 		
-		switch(algorithm) { //TODO: dodaæ case'y dla pozostalych sztucznych inteligencji
-		case "player":
-			return new Thread(new PlayerActor(_gameLogicExecutor, _mffp, _root, new SimpleLineDrawer(_root)));
-		case "Kosiak":
-			return new Thread(new LKosiakAI(_gameLogicExecutor, _mffp, playerName));
-		default:
-			return null;
+		switch(algorithm.toLowerCase()) 
+		{ 
+			case "cz³owiek":
+				return new Thread(new PlayerActor(_gameLogicExecutor, _mffp, _root, new SimpleLineDrawer(_root)));
+			case "[ai] kosiak":
+				return new Thread(new LKosiakAI(_gameLogicExecutor, _mffp, playerName));
+			default:
+				return null; //TODO: dodaæ case'y dla pozostalych sztucznych inteligencji
 		}		
 	}
 
