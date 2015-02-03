@@ -49,16 +49,17 @@ public class MenuStageController extends AbstractController
 
 	public MenuStageController() throws IOException
 	{
+		
 		algorithm1Data.add("[AI] Kosiak");
+		algorithm1Data.add("[AI] Dmowska");
 		algorithm1Data.add("[AI] Szczepañski");
 		algorithm1Data.add("[AI] Trawiñski");
-		algorithm1Data.add("[AI] Dmowska");
 		algorithm1Data.add("Cz³owiek");
-
+		
 		algorithm2Data.add("[AI] Kosiak");
+		algorithm2Data.add("[AI] Dmowska");
 		algorithm2Data.add("[AI] Szczepañski");
 		algorithm2Data.add("[AI] Trawiñski");
-		algorithm2Data.add("[AI] Dmowska");
 		algorithm2Data.add("Cz³owiek");
 		
 		colorsObservableList.add("chocolate");
@@ -83,11 +84,18 @@ public class MenuStageController extends AbstractController
 	{
 		algorithm1.setItems(algorithm1Data);
 		algorithm2.setItems(algorithm2Data);
-		map.setItems(maps);
 		
+		map.setItems(maps);
+		map.setValue(maps.get(0));
+		
+		algorithm1.setValue(algorithm1Data.get(0));
+		algorithm2.setValue(algorithm2Data.get(1));
 		
 		colorsCombo1.setItems(colorsObservableList);
 		colorsCombo2.setItems(colorsObservableList);
+		
+		colorsCombo1.setValue(colorsObservableList.get(0));
+		colorsCombo2.setValue(colorsObservableList.get(1));
 		
 		colorsCombo1.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
 	        @Override
