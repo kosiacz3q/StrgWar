@@ -1,18 +1,14 @@
 package StrgWar.map.readonly;
 
-import StrgWar.gui.IDrawable;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.CubicCurveTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import StrgWar.gui.IDrawable;
 
 public class ReadonlyNode implements IDrawable
 {
@@ -31,22 +27,14 @@ public class ReadonlyNode implements IDrawable
 		
 		gc.setLineWidth(5);
 		gc.setStroke(color);
-		
-		Button btn = new Button();
-		//btn.setId(_mapElementName);
-		btn.setText(Integer.toString(_occupantSize));
-		btn.setShape(createNodeShape(r));
-		btn.setLayoutX(x);
-		btn.setLayoutX(y);
-		root.getChildren().add(btn);
 
-		/*gc.strokeOval(x, y, 2 * r, 2 * r);
+		gc.strokeOval(x, y, 2 * r, 2 * r);
 			
 		gc.setFont(Font.font("Calibri", 20));
 		gc.setFill(color);
 		gc.setTextAlign(TextAlignment.CENTER);
 
-		gc.fillText(Integer.toString(_occupantSize), x + r, y + r);*/
+		gc.fillText(Integer.toString(_occupantSize), x + r, y + r);
 	}
 	
 	public void RedrawNode(GraphicsContext gc, Pane root, Color color, int x, int y, int r) {

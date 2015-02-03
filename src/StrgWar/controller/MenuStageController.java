@@ -12,6 +12,12 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.Tooltip;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Callback;
 
 public class MenuStageController extends AbstractController
 {
@@ -24,13 +30,22 @@ public class MenuStageController extends AbstractController
 
 	@FXML
 	private ComboBox<String> algorithm2;
+	
+	@FXML
+	private ComboBox<String> colorsCombo1;
 
 	@FXML
+	private ComboBox<String> colorsCombo2;
+	
+	@FXML
 	private ComboBox<String> map;
+	
 	private ObservableList<String> maps = FXCollections.observableArrayList();
 
 	@FXML
 	private Button btnStart;
+	
+	private ObservableList<String> colorsObservableList = FXCollections.observableArrayList();
 
 	public MenuStageController() throws IOException
 	{
@@ -45,6 +60,11 @@ public class MenuStageController extends AbstractController
 		algorithm2Data.add("[AI] Trawiñski");
 		algorithm2Data.add("[AI] Dmowska");
 		algorithm2Data.add("Cz³owiek");
+		
+		colorsObservableList.add("chocolate");
+		colorsObservableList.add("blue");
+		colorsObservableList.add("blueviolet");
+		colorsObservableList.add("gold");
 
 		String rootDir = new File(".").getCanonicalPath();
 		File subDir = new File(rootDir, "/resources/maps");
@@ -64,6 +84,28 @@ public class MenuStageController extends AbstractController
 		algorithm1.setItems(algorithm1Data);
 		algorithm2.setItems(algorithm2Data);
 		map.setItems(maps);
+		
+		
+		colorsCombo1.setItems(colorsObservableList);
+		colorsCombo2.setItems(colorsObservableList);
+		
+		colorsCombo1.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+	        @Override
+	        public ListCell<String> call(ListView<String> list) {
+	            return new ColorRectCell();
+	        }
+	    });
+		
+		colorsCombo2.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+	        @Override
+	        public ListCell<String> call(ListView<String> list) {
+	            return new ColorRectCell();
+	        }
+	    });
+		
+		colorsCombo1.setButtonCell(new ColorRectTooltipCell());
+		colorsCombo2.setButtonCell(new ColorRectTooltipCell());
+
 		
 		algorithm1.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 
@@ -102,7 +144,10 @@ public class MenuStageController extends AbstractController
 			String algorithm1Choice = algorithm1.getSelectionModel().getSelectedItem();
 			String algorithm2Choice = algorithm2.getSelectionModel().getSelectedItem();
 			String mapChoice = map.getSelectionModel().getSelectedItem();
-
+			
+			String player1Color = colorsCombo1.getSelectionModel().getSelectedItem();
+			String player2Color = colorsCombo2.getSelectionModel().getSelectedItem();
+			
 			if (algorithm1Choice == null || algorithm2Choice == null || mapChoice == null)
 				System.out.println("brak danych");
 			else
@@ -111,5 +156,28 @@ public class MenuStageController extends AbstractController
 				_stageSetter.SetStage("GAME");
 			}
 		});
+	}
+	
+	static class ColorRectCell extends ListCell<String>{
+		@Override
+		public void updateItem(String item, boolean empty){
+			super.updateItem(item, empty);
+				Rectangle rect = new Rectangle(50,18);
+				if(item != null){
+				rect.setFill(Color.web(item));
+				setGraphic(rect);
+			}
+		}
+	}   
+	
+	static class ColorRectTooltipCell extends ColorRectCell {
+		@Override
+		public void updateItem(String item, boolean empty) {
+			super.updateItem(item, empty);
+			
+			if (item != null) {
+				Tooltip.install(this.getParent(), new Tooltip(item));
+			}
+		}
 	}
 }

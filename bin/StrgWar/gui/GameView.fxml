@@ -12,6 +12,6 @@
 	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="StrgWar.controller.GameStageController">
 	<children>
-		<Canvas height="400.0" layoutX="0.0" layoutY="0.0" width="600.0" />
+		<Canvas height="600.0" layoutX="0.0" layoutY="0.0" width="900.0" />
 	</children>
 </Pane>

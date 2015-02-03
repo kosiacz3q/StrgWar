@@ -17,8 +17,8 @@
 			<columnConstraints>
 				<ColumnConstraints halignment="RIGHT" maxWidth="272.0" minWidth="42.0" prefWidth="131.0" />
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="328.0" minWidth="97.0" prefWidth="180.0" />
-            <ColumnConstraints maxWidth="338.0" minWidth="0.0" prefWidth="170.0" />
-            <ColumnConstraints maxWidth="247.0" minWidth="10.0" prefWidth="158.0" />
+            <ColumnConstraints maxWidth="338.0" minWidth="0.0" prefWidth="62.0" />
+            <ColumnConstraints maxWidth="273.0" minWidth="10.0" prefWidth="266.0" />
             <ColumnConstraints maxWidth="205.0" minWidth="10.0" prefWidth="205.0" />
             <ColumnConstraints maxWidth="94.0" minWidth="10.0" prefWidth="56.0" />
 			</columnConstraints>
@@ -80,7 +80,20 @@
                <effect>
                   <Blend />
                </effect>
-				</ComboBox> 
+				</ComboBox>
+            <ComboBox fx:id="colorsCombo1" maxWidth="1.7976931348623157E308" minWidth="-Infinity" style="-fx-background-color: white; -fx-border-color: green;" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+	            <items>
+					<FXCollections fx:factory="observableArrayList" />
+				</items> 
+			</ComboBox>
+			
+			
+            <ComboBox fx:id="colorsCombo2" prefWidth="150.0" style="-fx-background-color: white; -fx-border-color: green;" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.valignment="TOP">
+				<items>
+					<FXCollections fx:factory="observableArrayList" />
+				</items> 
+			</ComboBox>
+			
 			</children>
 			
 		</GridPane>
