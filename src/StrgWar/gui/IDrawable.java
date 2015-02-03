@@ -6,5 +6,5 @@ import javafx.scene.layout.Pane;
 
 public interface IDrawable
 {
-	void Draw(GraphicsContext gc, Pane root, IPlayerColorProvider playerColorProvider);
+	void Draw(GraphicsContext gc, Pane root, IPlayerColorProvider playerColorProvider, long now);
 }

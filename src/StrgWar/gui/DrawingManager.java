@@ -21,12 +21,12 @@ public class DrawingManager
 		_drawable.add(drawwable);
 	}
 	
-	public void draw()
+	public void draw(long now)
 	{
 		_gc.clearRect(0, 0, 900, 600);
 		
 		for (IDrawable drawable : _drawable)
-			drawable.Draw(_gc, _root, _playerColorProvider);
+			drawable.Draw(_gc, _root, _playerColorProvider, now);
 	}
 	
 	private final Pane _root;
