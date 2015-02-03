@@ -3,7 +3,7 @@ package StrgWar.stage;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class StageManager implements IStageSetter, IAlgorithmSetter
+public class StageManager implements IStageSetter
 {
 	public StageManager() throws IOException
 	{
@@ -27,18 +27,10 @@ public class StageManager implements IStageSetter, IAlgorithmSetter
 			_stages.get(_actualStageName).OnExit();
 		}
 		
-		_stages.get(name).OnStart(_algorithm1, _algorithm2);
+		_stages.get(name).OnStart();
 		_actualStageName = name;
 	}
 	
-	public void SetAlgorithms(String algorithm1, String algorithm2)
-	{
-		_algorithm1 = algorithm1;
-		_algorithm2 = algorithm2;
-	}
-
 	private HashMap<String, Stage> _stages;
 	private String _actualStageName;
-	private String _algorithm1;
-	private String _algorithm2;
 }

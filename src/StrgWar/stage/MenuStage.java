@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 
 public class MenuStage extends StrgWar.stage.Stage
 {
-
 	public MenuStage(Stage primaryStage) throws IOException
 	{
 		_primaryStage = primaryStage;
@@ -22,7 +21,7 @@ public class MenuStage extends StrgWar.stage.Stage
 	}
 
 	@Override
-	public void OnStart(String algorithm1, String algorithm2)
+	public void OnStart()
 	{
 		_primaryStage.setScene(_menuScene);
 		_primaryStage.show();

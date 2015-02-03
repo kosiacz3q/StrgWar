@@ -6,7 +6,6 @@ import javafx.scene.input.*;
 import javafx.scene.Cursor;
 import javafx.event.EventHandler;
 import StrgWar.ai.AbstractActor;
-import StrgWar.ai.GameLogicExecutor;
 import StrgWar.ai.ICommandExecutor;
 import StrgWar.ai.StartSendingUnits;
 import StrgWar.ai.StopSendingCommand;
@@ -19,7 +18,7 @@ import javafx.geometry.Point2D;
 
 public class PlayerActor extends AbstractActor
 {
-	public PlayerActor(ICommandExecutor commandExecutor, IReadonlyMapProvider readonlyMapProvider, Pane root, ILineDrawer lineDrawer)
+	public PlayerActor(ICommandExecutor commandExecutor, IReadonlyMapProvider readonlyMapProvider, Pane root, ILineDrawer lineDrawer, String name)
 	{
 		super(commandExecutor, readonlyMapProvider);
 	
@@ -29,6 +28,8 @@ public class PlayerActor extends AbstractActor
 		
 		_lineDrawer = lineDrawer;
 		_root = root;
+		
+		_name = name;
 		
 		_root.setOnMousePressed(new EventHandler<MouseEvent>() {
 			  @Override public void handle(MouseEvent mouseEvent) {
@@ -89,9 +90,10 @@ public class PlayerActor extends AbstractActor
 	@Override
 	public String GetName()
 	{
-		return  "player2";
+		return  _name;
 	}
 
+	private String _name;
 	private ReadonlyMap _map;
 	private Pane _root;
 	private ILineDrawer _lineDrawer;

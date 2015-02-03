@@ -10,6 +10,9 @@ import org.xml.sax.SAXException;
 import StrgWar.ai.GameLogicExecutor;
 import StrgWar.ai.implementations.LKosiakAI;
 import StrgWar.ai.implementations.PlayerActor;
+import StrgWar.core.IPlayerColorProvider;
+import StrgWar.core.ISharedDataHandler;
+import StrgWar.core.PlayerColorProvider;
 import StrgWar.gui.DrawingManager;
 import StrgWar.gui.effects.SimpleLineDrawer;
 import StrgWar.map.loader.MapFromXmlLoader;
@@ -24,7 +27,7 @@ import javafx.scene.paint.Color;
 
 public class GameStage extends StrgWar.stage.Stage
 {
-	public GameStage(StageManager sm, javafx.stage.Stage primaryStage , String mapSource) throws IOException, SAXException, ParserConfigurationException
+	public GameStage(StageManager sm, javafx.stage.Stage primaryStage , String mapSource, ISharedDataHandler sharedDataHandler) throws IOException, SAXException, ParserConfigurationException
 	{
 		_primaryStage = primaryStage;
 		Pane root = (Pane) FXMLLoader.load(getClass().getResource("../gui/GameView.fxml"));
@@ -43,15 +46,17 @@ public class GameStage extends StrgWar.stage.Stage
 		_threads = new ArrayList<Thread>();
 		 
 		_root = root;
-		 
-		_drawingManager = new DrawingManager(_gc, _root);
-		 
-		_sm = sm;
+		
+		_sharedDataHandler = sharedDataHandler;
 	}
 
 	@Override
-	public void OnStart(String algorithm1, String algorithm2)
+	public void OnStart()
 	{
+		_playerColorProvider = new PlayerColorProvider();
+		
+		_drawingManager = new DrawingManager(_gc, _root , _playerColorProvider);
+		
 		_primaryStage.setScene(_gameScene);
 		_primaryStage.show();
 		
@@ -59,8 +64,11 @@ public class GameStage extends StrgWar.stage.Stage
 		
 		_threads.add(new Thread(_gameLogicExecutor));
 		
-		_threads.add(CreateAIThread(algorithm1, "player1")); //player1
-		_threads.add(CreateAIThread(algorithm2, "player2")); //player2
+		_threads.add(CreateAIThread(_sharedDataHandler.GetPlayer1Name() , "player1")); //player1
+		_threads.add(CreateAIThread(_sharedDataHandler.GetPlayer2Name() , "player2")); //player2
+		
+		_playerColorProvider.SetPlayerColor("player1", Color.valueOf(_sharedDataHandler.GetPlayer1Color()));
+		_playerColorProvider.SetPlayerColor("player2", Color.valueOf(_sharedDataHandler.GetPlayer2Color()));
 		
 		for ( Thread thread : _threads)
 			thread.start();
@@ -87,7 +95,7 @@ public class GameStage extends StrgWar.stage.Stage
 		switch(algorithm.toLowerCase()) 
 		{ 
 			case "cz³owiek":
-				return new Thread(new PlayerActor(_gameLogicExecutor, _mffp, _root, new SimpleLineDrawer(_root)));
+				return new Thread(new PlayerActor(_gameLogicExecutor, _mffp, _root, new SimpleLineDrawer(_root), playerName ));
 			case "[ai] kosiak":
 				return new Thread(new LKosiakAI(_gameLogicExecutor, _mffp, playerName));
 			default:
@@ -126,5 +134,6 @@ public class GameStage extends StrgWar.stage.Stage
 	
 	private AnimationTimer _animationTimer;
 	
-	private StageManager _sm;
+	private IPlayerColorProvider _playerColorProvider;
+	private ISharedDataHandler _sharedDataHandler;
 }

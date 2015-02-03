@@ -2,8 +2,6 @@ package StrgWar.map.readonly;
 
 import java.util.ArrayList;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.Pane;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 
@@ -12,16 +10,6 @@ public class ReadonlyMap
 	public ReadonlyMap()
 	{
 		Nodes = new ArrayList<ReadonlyNode>();
-	}
-
-	public void DrawMap(GraphicsContext gc, Pane root) {
-		for(ReadonlyNode node : Nodes)
-		{
-			int x = (int)node.GetPosition().getX();
-			int y = (int)node.GetPosition().getY();
-			
-			node.PrintNode(gc, root, null, x, y, 50); 
-		}
 	}
 
 	public ReadonlyNode Find(String name)

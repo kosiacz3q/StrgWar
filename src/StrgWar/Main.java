@@ -10,6 +10,8 @@ import java.util.logging.SimpleFormatter;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import StrgWar.controller.AbstractController;
+import StrgWar.core.ISharedDataHandler;
+import StrgWar.core.SharedDataHandler;
 import StrgWar.stage.GameStage;
 import StrgWar.stage.MenuStage;
 import StrgWar.stage.StageManager;
@@ -27,11 +29,13 @@ public class Main extends Application
 			File subDir = new File(rootDir, "/resources/maps");
 			File fXmlFile = new File(subDir, "map0.xml");
 			
-			AbstractController.SetStageSetter(_stageManager);
-			AbstractController.SetAlgorithmSetter(_stageManager);
+			ISharedDataHandler sharedDataHandler = new SharedDataHandler();
 			
-			_stageManager.RegisterStage(new MenuStage(primaryStage));
-			_stageManager.RegisterStage(new GameStage(_stageManager, primaryStage , fXmlFile.getAbsolutePath()));
+			AbstractController.SetStageSetter(_stageManager);
+			AbstractController.SetSharedDataHandler(sharedDataHandler);
+			
+			_stageManager.RegisterStage(new MenuStage(primaryStage) );
+			_stageManager.RegisterStage(new GameStage(_stageManager, primaryStage , fXmlFile.getAbsolutePath(), sharedDataHandler));
 
 			_stageManager.SetStage("MENU");
 		}

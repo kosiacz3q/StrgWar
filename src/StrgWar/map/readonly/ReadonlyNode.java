@@ -8,6 +8,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import StrgWar.core.IPlayerColorProvider;
 import StrgWar.gui.IDrawable;
 
 public class ReadonlyNode implements IDrawable
@@ -21,30 +22,33 @@ public class ReadonlyNode implements IDrawable
 		_income = 0;
 	}
 
-	public void PrintNode(GraphicsContext gc, Pane root, Color color, int x, int y, int r) {
-		if(color == null)
-			color = Color.BLACK;// Color.rgb(205, 192, 176); //neutralny
-		
+	private void PrintNode(GraphicsContext gc, Pane root, Color color, int x, int y, int r)
+	{
+		if (color == null) color = Color.BLACK;// Color.rgb(205, 192, 176);
+												// //neutralny
+
 		gc.setLineWidth(5);
 		gc.setStroke(color);
 
 		gc.strokeOval(x, y, 2 * r, 2 * r);
-			
+
 		gc.setFont(Font.font("Calibri", 20));
 		gc.setFill(color);
 		gc.setTextAlign(TextAlignment.CENTER);
 
 		gc.fillText(Integer.toString(_occupantSize), x + r, y + r);
 	}
-	
-	public void RedrawNode(GraphicsContext gc, Pane root, Color color, int x, int y, int r) {
-		gc.clearRect(x, y, 2 *r, 2 * r);
+
+	private void RedrawNode(GraphicsContext gc, Pane root, Color color, int x, int y, int r)
+	{
+		//gc.clearRect(x, y, 2 * r, 2 * r);
 		PrintNode(gc, root, color, x, y, r);
 	}
-	
-	public Shape createNodeShape(double r) {
+
+	public Shape createNodeShape(double r)
+	{
 		Circle circle = new Circle(r);
-		
+
 		return circle;
 	}
 
@@ -78,33 +82,31 @@ public class ReadonlyNode implements IDrawable
 	{
 		return _position;
 	}
-	
+
 	public float GetRadius()
 	{
 		return _radius;
 	}
-	
+
 	@Override
-	public void Draw(GraphicsContext gc, Pane root)
+	public void Draw(GraphicsContext gc, Pane root, IPlayerColorProvider playerColorProvider)
 	{
-		/*Color color = Color.BLACK;// Color.rgb(205, 192, 176); //neutralny
-		
-		gc.setLineWidth(5);
-		gc.setStroke(color);
+		/*
+		 * Color color = Color.BLACK;// Color.rgb(205, 192, 176); //neutralny
+		 * 
+		 * gc.setLineWidth(5); gc.setStroke(color);
+		 * 
+		 * gc.strokeOval( _position.getX() - _radius / 2, _position.getY() -
+		 * _radius / 2, _radius, _radius);
+		 * 
+		 * gc.setFont(Font.font("Calibri", 20)); gc.setFill(color);
+		 * gc.setTextAlign(TextAlignment.CENTER);
+		 * 
+		 * gc.fillText(Integer.toString(_occupantSize), _position.getX(),
+		 * _position.getY());
+		 */
 
-		gc.strokeOval(
-				_position.getX() - _radius / 2, 
-				_position.getY() - _radius / 2,
-				_radius,
-				_radius);
-			
-		gc.setFont(Font.font("Calibri", 20));
-		gc.setFill(color);
-		gc.setTextAlign(TextAlignment.CENTER);
-
-		gc.fillText(Integer.toString(_occupantSize), _position.getX(), _position.getY());*/
-		
-		RedrawNode(gc, root, Color.BLACK, (int)_position.getX(), (int)_position.getY(), _radius);
+		RedrawNode(gc, root, playerColorProvider.GetPlayerColor(_occupantName), (int) _position.getX(), (int) _position.getY(), _radius);
 	}
 
 	protected int _occupantSize;
@@ -113,7 +115,4 @@ public class ReadonlyNode implements IDrawable
 	protected String _mapElementName;
 	protected int _radius;
 	protected Point2D _position;
-
-	
-
 }

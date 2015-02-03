@@ -160,7 +160,12 @@ public class MenuStageController extends AbstractController
 				System.out.println("brak danych");
 			else
 			{
-				_algorithmSetter.SetAlgorithms(algorithm1Choice, algorithm2Choice);
+				_sharedDataHandler.SetPlayer1Name(algorithm1Choice);
+				_sharedDataHandler.SetPlayer2Name(algorithm2Choice);
+				
+				_sharedDataHandler.SetPlayer1Color(player1Color);
+				_sharedDataHandler.SetPlayer2Color(player2Color);
+				
 				_stageSetter.SetStage("GAME");
 			}
 		});
