@@ -27,6 +27,7 @@ public class ReadonlyNode implements IDrawable {
 		_arcs = CreateArcs(_radius / 3);
 	}
 
+	//TODO remove?
 	public Shape createNodeShape(double r) {
 		Circle circle = new Circle(r);
 

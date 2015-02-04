@@ -1,5 +1,8 @@
 package StrgWar.map;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import StrgWar.core.IUpdateable;
 import StrgWar.map.changeable.ChangeableNode;
 
@@ -7,6 +10,7 @@ public class GameUnit implements IUpdateable
 {
 	public GameUnit(ChangeableNode origin, ChangeableNode target,String ownerName, int count)
 	{
+		_origin = origin;
 		_roadLength = (float) origin.GetPosition().distance(target.GetPosition());
 		_traveled = 0;
 		_movementSpeed = 1;
@@ -22,10 +26,10 @@ public class GameUnit implements IUpdateable
 		if (!IsTravelComplete())
 		{
 			_traveled += _movementSpeed * time;	
-			
-			if (IsTravelComplete())
-				EndTravel();
 		}
+		
+		if (IsTravelComplete())
+			EndTravel();
 	}
 
 	public boolean IsTravelComplete()
@@ -45,7 +49,9 @@ public class GameUnit implements IUpdateable
 	
 	private void EndTravel()
 	{
+		_logger.log(Level.FINE, "units from " + _origin.GetMapElementName() + " to " + _target.GetMapElementName());
 		_target.AddUnits(this);
+		
 	}
 	
 	private ChangeableNode _target;
@@ -57,4 +63,5 @@ public class GameUnit implements IUpdateable
 	private final float _movementSpeed;
 	private float _roadLength;
 	private float _traveled;
+	private static final Logger _logger = Logger.getLogger( GameUnit.class.getName() );
 }

@@ -124,6 +124,15 @@ public class GameLogicExecutor implements ICommandExecutor, ISentUnitsManager, R
 			{
 				node.Update(100);
 			}
+		
+			//removing complete units
+			ArrayList<GameUnit> toRemove = new ArrayList<GameUnit>();
+			
+			for( GameUnit unit : _pendingUnits)
+				if( unit.IsTravelComplete() ) toRemove.add(unit);
+			
+			for( GameUnit unit : toRemove)
+				_pendingUnits.remove(unit);
 			
 			try
 			{
