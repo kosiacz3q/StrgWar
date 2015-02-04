@@ -1,5 +1,7 @@
 package StrgWar.map.changeable;
 
+import javafx.scene.paint.Color;
+import javafx.geometry.Point2D;
 import StrgWar.core.IUpdateable;
 import StrgWar.map.GameUnit;
 import StrgWar.map.ISentUnitsManager;
@@ -7,16 +9,15 @@ import StrgWar.map.readonly.ReadonlyNode;
 
 public class ChangeableNode extends ReadonlyNode implements IUpdateable
 {
-	public ChangeableNode(String mapElementName, String occupant, int startSize, int income, int radius)
+	public ChangeableNode(String mapElementName, String occupant, int startSize, int income, Point2D position, int radius)
 	{
-		super(mapElementName);
+		super(mapElementName, position, radius);
 		
 		_occupantName = occupant;
 		_income = income;
 		_occupantSize = startSize;
 		
 		sendingTarget = null;
-		_radius = radius;
 		_accumulatedTime = 0;
 	}
 	

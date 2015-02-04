@@ -8,6 +8,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import StrgWar.ai.GameLogicExecutor;
+import StrgWar.ai.implementations.HDmowskaAI;
 import StrgWar.ai.implementations.LKosiakAI;
 import StrgWar.ai.implementations.PlayerActor;
 import StrgWar.core.IPlayerColorProvider;
@@ -80,7 +81,7 @@ public class GameStage extends StrgWar.stage.Stage
 			@Override
 			public void handle(long now)
 			{
-				_drawingManager.draw();
+				_drawingManager.draw(now);
 			}
 		};
 		
@@ -98,6 +99,8 @@ public class GameStage extends StrgWar.stage.Stage
 				return new Thread(new PlayerActor(_gameLogicExecutor, _mffp, _root, new SimpleLineDrawer(_root), playerName ));
 			case "[ai] kosiak":
 				return new Thread(new LKosiakAI(_gameLogicExecutor, _mffp, playerName));
+			case "[ai] dmowska":
+				return new Thread(new HDmowskaAI(_gameLogicExecutor, _mffp, playerName));
 			default:
 				return null; //TODO: dodaæ case'y dla pozostalych sztucznych inteligencji
 		}		

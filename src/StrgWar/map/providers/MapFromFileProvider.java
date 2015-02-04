@@ -1,6 +1,7 @@
 package StrgWar.map.providers;
 
 import javafx.geometry.Point2D;
+import javafx.scene.paint.Color;
 import StrgWar.map.changeable.ChangeableMap;
 import StrgWar.map.changeable.ChangeableNode;
 import StrgWar.map.changeable.IChangeableMapProvider;
@@ -43,7 +44,7 @@ public class MapFromFileProvider implements IChangeableMapProvider, IReadonlyMap
 		
 		for (RawNode rn : _loader.GetNodes())
 		{
-			ChangeableNode nd = new ChangeableNode(rn.name, rn.occupant, rn.startSize, rn.unitsPerSecond, rn.r);
+			ChangeableNode nd = new ChangeableNode(rn.name, rn.occupant, rn.startSize, rn.unitsPerSecond, new Point2D(rn.x, rn.y), rn.r);
 			
 			nd.SetPosition(new Point2D(rn.x, rn.y));
 			
