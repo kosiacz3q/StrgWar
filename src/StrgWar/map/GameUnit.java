@@ -3,6 +3,9 @@ package StrgWar.map;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import StrgWar.core.IPlayerColorProvider;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import StrgWar.core.IUpdateable;
 import StrgWar.gui.DrawingManager;
 import StrgWar.gui.IDrawable;
@@ -12,6 +15,7 @@ public class GameUnit implements IUpdateable, IDrawable
 {
 	public GameUnit(ChangeableNode origin, ChangeableNode target, String ownerName, int count)
 	{
+		_origin = origin;
 		_roadLength = (float) origin.GetPosition().distance(target.GetPosition());
 		_traveled = 0;
 		_movementSpeed = 1;
@@ -27,10 +31,10 @@ public class GameUnit implements IUpdateable, IDrawable
 		if (!IsTravelComplete())
 		{
 			_traveled += _movementSpeed * time;	
-			
-			if (IsTravelComplete())
-				EndTravel();
 		}
+		
+		if (IsTravelComplete())
+			EndTravel();
 	}
 	
 	@Override
@@ -57,7 +61,9 @@ public class GameUnit implements IUpdateable, IDrawable
 	
 	private void EndTravel()
 	{
+		_logger.log(Level.FINE, "units from " + _origin.GetMapElementName() + " to " + _target.GetMapElementName());
 		_target.AddUnits(this);
+		
 	}
 	
 	private ChangeableNode _target;
@@ -69,4 +75,5 @@ public class GameUnit implements IUpdateable, IDrawable
 	private final float _movementSpeed;
 	private float _roadLength;
 	private float _traveled;
+	private static final Logger _logger = Logger.getLogger( GameUnit.class.getName() );
 }

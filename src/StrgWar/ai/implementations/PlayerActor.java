@@ -35,8 +35,8 @@ public class PlayerActor extends AbstractActor
 			  @Override public void handle(MouseEvent mouseEvent) {
 				  
 				  origin = new Point2D(mouseEvent.getX(), mouseEvent.getY());
-
-			   root.setCursor(Cursor.MOVE);
+				  
+				  root.setCursor(Cursor.MOVE);
 			  }
 			});
 		
@@ -45,6 +45,8 @@ public class PlayerActor extends AbstractActor
 				  root.setCursor(Cursor.HAND);
 				  
 				  Point2D dest =  new Point2D(mouseEvent.getX(), mouseEvent.getY());
+				  
+				  _logger.log(Level.FINE, "Mouse released " + mouseEvent.getX() + " " +  mouseEvent.getY());
 				  
 				  ReadonlyNode originNode = _map.FindByPoint(origin);
 				  ReadonlyNode destNode = _map.FindByPoint(dest);
