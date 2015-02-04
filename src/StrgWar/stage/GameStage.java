@@ -42,22 +42,22 @@ public class GameStage extends StrgWar.stage.Stage
 		
 		_mffp = new MapFromFileProvider(new MapFromXmlLoader(mapSource));
 		 
-		_gameLogicExecutor = new GameLogicExecutor(_mffp);
+		_root = root;
+		
+		_playerColorProvider = new PlayerColorProvider();
+		
+		_drawingManager = new DrawingManager(_gc, _root , _playerColorProvider);
+	
+		_gameLogicExecutor = new GameLogicExecutor(_mffp, _drawingManager);
 		 
 		_threads = new ArrayList<Thread>();
-		 
-		_root = root;
 		
 		_sharedDataHandler = sharedDataHandler;
 	}
 
 	@Override
 	public void OnStart()
-	{
-		_playerColorProvider = new PlayerColorProvider();
-		
-		_drawingManager = new DrawingManager(_gc, _root , _playerColorProvider);
-		
+	{	
 		_primaryStage.setScene(_gameScene);
 		_primaryStage.show();
 		
