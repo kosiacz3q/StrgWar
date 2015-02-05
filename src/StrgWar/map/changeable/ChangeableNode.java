@@ -1,6 +1,5 @@
 package StrgWar.map.changeable;
 
-import javafx.scene.paint.Color;
 import javafx.geometry.Point2D;
 import StrgWar.core.IUpdateable;
 import StrgWar.map.GameUnit;

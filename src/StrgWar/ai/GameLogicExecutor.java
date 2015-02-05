@@ -5,6 +5,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import StrgWar.gui.DrawingManager;
 import StrgWar.map.GameUnit;
 import StrgWar.map.ISentUnitsManager;
 import StrgWar.map.changeable.ChangeableMap;
@@ -13,8 +14,10 @@ import StrgWar.map.changeable.IChangeableMapProvider;
 
 public class GameLogicExecutor implements ICommandExecutor, ISentUnitsManager, Runnable
 {
-	public GameLogicExecutor(IChangeableMapProvider changeableMapProvider)
+	public GameLogicExecutor(IChangeableMapProvider changeableMapProvider, DrawingManager drawingManager)
 	{
+		_drawingManager = drawingManager;
+		
 		_commandExecuteLock = new ReentrantLock();
 		
 		_map = changeableMapProvider.GetChangeableMap();
@@ -59,16 +62,16 @@ public class GameLogicExecutor implements ICommandExecutor, ISentUnitsManager, R
 						if (origin.GetOccupantName().compareTo(abstractActor.GetName()) == 0)
 						{
 							origin.StartSendingUnitsTo(destination);
-							//_logger.log(Level.FINE, "Player (" + abstractActor.GetName() + " starts sending units from " +  actorCommand.GetOrigin() + " to " + destination.GetMapElementName());
+							_logger.log(Level.FINE, "Player (" + abstractActor.GetName() + " starts sending units from " +  actorCommand.GetOrigin() + " to " + destination.GetMapElementName());
 						}
 						else
 						{
-							//_logger.log( Level.INFO, "Command to non owned city");
+							_logger.log( Level.INFO, "Command to non owned city");
 						}
 					}
 					else
 					{
-						//_logger.log(Level.FINE, "Wrong city name (" + actorCommand.GetOrigin() + " or " + actorCommand.GetDestination() + ") from player " + abstractActor.GetName());
+						_logger.log(Level.FINE, "Wrong city name (" + actorCommand.GetOrigin() + " or " + actorCommand.GetDestination() + ") from player " + abstractActor.GetName());
 					}
 					
 					break;
@@ -111,6 +114,7 @@ public class GameLogicExecutor implements ICommandExecutor, ISentUnitsManager, R
 	public void ReceiveUnits(GameUnit gu)
 	{
 		_pendingUnits.add(gu);
+		_drawingManager.Register(gu);
 	}
 	
 	@Override
@@ -118,25 +122,28 @@ public class GameLogicExecutor implements ICommandExecutor, ISentUnitsManager, R
 	{
 		while(true)
 		{
-			_pendingUnits.forEach(g -> g.Update(100));
+			//_pendingUnits.forEach(g -> g.Update(_sleepTime));
 
 			for (ChangeableNode node : _map.Nodes)
 			{
-				node.Update(100);
+				node.Update(_sleepTime);
 			}
 		
 			//removing complete units
 			ArrayList<GameUnit> toRemove = new ArrayList<GameUnit>();
 			
 			for( GameUnit unit : _pendingUnits)
-				if( unit.IsTravelComplete() ) toRemove.add(unit);
+				if( unit.IsTravelComplete() ) { 
+					toRemove.add(unit);
+					_drawingManager.RemoveElement(unit);
+				}
 			
 			for( GameUnit unit : toRemove)
 				_pendingUnits.remove(unit);
 			
 			try
 			{
-				Thread.sleep(100);
+				Thread.sleep(_sleepTime);
 			}
 			catch (InterruptedException e)
 			{
@@ -150,6 +157,8 @@ public class GameLogicExecutor implements ICommandExecutor, ISentUnitsManager, R
 	private final ChangeableMap _map;
 	private boolean _isGameStarted;
 	private ArrayList<GameUnit> _pendingUnits;
+	private DrawingManager _drawingManager;
+	private int _sleepTime = 1000;
 	
 	private static final Logger _logger = Logger.getLogger( GameLogicExecutor.class.getName() );
 }

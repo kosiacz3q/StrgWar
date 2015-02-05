@@ -6,8 +6,6 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import StrgWar.core.IPlayerColorProvider;
@@ -25,13 +23,6 @@ public class ReadonlyNode implements IDrawable {
 		_radius = radius;
 
 		_arcs = CreateArcs(_radius / 3);
-	}
-
-	//TODO remove?
-	public Shape createNodeShape(double r) {
-		Circle circle = new Circle(r);
-
-		return circle;
 	}
 
 	public void SetPosition(Point2D position) {
