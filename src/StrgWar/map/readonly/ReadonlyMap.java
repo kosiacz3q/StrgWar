@@ -15,29 +15,24 @@ public class ReadonlyMap
 	public ReadonlyNode Find(String name)
 	{
 		for (ReadonlyNode node : Nodes)
-			if (node.GetMapElementName().compareTo(name) == 0)
-				return node;
-		
+			if (node.GetMapElementName().compareTo(name) == 0) return node;
+
 		return null;
 	}
-	
+
 	public ReadonlyNode FindByPoint(Point2D point)
 	{
 		for (ReadonlyNode node : Nodes)
 		{
-			if (new Rectangle(
-					node.GetPosition().getX() - node.GetRadius() / 2,
-					node.GetPosition().getY() - node.GetRadius() / 2,
-					node.GetRadius() ,
-					node.GetRadius()
-					).contains(point))
+			if (new Rectangle(node.GetPosition().getX() - node.GetRadius() / 2, node.GetPosition().getY() - node.GetRadius() / 2,
+					node.GetRadius(), node.GetRadius()).contains(point))
 			{
 				return node;
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	public final ArrayList<ReadonlyNode> Nodes;
 }

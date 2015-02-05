@@ -17,7 +17,9 @@ public class SimpleLineDrawer extends ILineDrawer
 		_line.setEndX(0);
 		_line.setEndY(0);
 		
-		root.getChildren().add(_line);
+		_root = root;
+		
+		_root.getChildren().add(_line);
 	}
 
 	@Override
@@ -29,6 +31,14 @@ public class SimpleLineDrawer extends ILineDrawer
 		_line.setEndX(dest.getX());
 		_line.setEndY(dest.getY());
 	}
+
+	@Override
+	public void Unregister()
+	{
+		_root.getChildren().remove(_line);
+	}
 	
-	private Line _line;
+	private final Line _line;
+	private final Pane _root;
+	
 }

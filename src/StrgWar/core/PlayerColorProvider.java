@@ -10,8 +10,7 @@ public class PlayerColorProvider implements IPlayerColorProvider
 	{
 		_playerColor = new HashMap<String, Color>();
 	}
-	
-	
+
 	@Override
 	public Color GetPlayerColor(String name)
 	{
@@ -23,6 +22,6 @@ public class PlayerColorProvider implements IPlayerColorProvider
 	{
 		_playerColor.put(name, color);
 	}
-	
+
 	private HashMap<String, Color> _playerColor;
 }

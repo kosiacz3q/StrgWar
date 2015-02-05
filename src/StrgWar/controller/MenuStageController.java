@@ -166,6 +166,20 @@ public class MenuStageController extends AbstractController
 				_sharedDataHandler.SetPlayer1Color(player1Color);
 				_sharedDataHandler.SetPlayer2Color(player2Color);
 				
+				File fXmlFile = new File("ERROR");
+				try
+				{
+					String rootDir = new File(".").getCanonicalPath();
+					File subDir = new File(rootDir, "/resources/maps");
+					fXmlFile = new File(subDir, map.getSelectionModel().getSelectedItem());
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+				
+				_sharedDataHandler.SetMapSource( fXmlFile.getAbsolutePath() );
+				
 				_stageSetter.SetStage("GAME");
 			}
 		});

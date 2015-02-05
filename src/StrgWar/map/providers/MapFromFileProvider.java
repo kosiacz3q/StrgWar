@@ -1,7 +1,6 @@
 package StrgWar.map.providers;
 
 import javafx.geometry.Point2D;
-import javafx.scene.paint.Color;
 import StrgWar.map.changeable.ChangeableMap;
 import StrgWar.map.changeable.ChangeableNode;
 import StrgWar.map.changeable.IChangeableMapProvider;
@@ -16,15 +15,14 @@ public class MapFromFileProvider implements IChangeableMapProvider, IReadonlyMap
 	{
 		_changeAbleMap = null;
 		_readonlyMap = null;
-		
+
 		_loader = loader;
 	}
 
 	@Override
 	public ReadonlyMap GetReadOnlyMap()
 	{
-		if (_readonlyMap == null) 
-			InitMaps();
+		if (_readonlyMap == null) InitMaps();
 
 		return _readonlyMap;
 	}
@@ -32,8 +30,7 @@ public class MapFromFileProvider implements IChangeableMapProvider, IReadonlyMap
 	@Override
 	public ChangeableMap GetChangeableMap()
 	{
-		if (_changeAbleMap == null) 
-			InitMaps();
+		if (_changeAbleMap == null) InitMaps();
 
 		return _changeAbleMap;
 	}
@@ -41,19 +38,18 @@ public class MapFromFileProvider implements IChangeableMapProvider, IReadonlyMap
 	private void InitMaps()
 	{
 		_changeAbleMap = new ChangeableMap();
-		
+
 		for (RawNode rn : _loader.GetNodes())
 		{
 			ChangeableNode nd = new ChangeableNode(rn.name, rn.occupant, rn.startSize, rn.unitsPerSecond, new Point2D(rn.x, rn.y), rn.r);
-			
+
 			nd.SetPosition(new Point2D(rn.x, rn.y));
-			
+
 			_changeAbleMap.Nodes.add(nd);
 		}
-		
-		
+
 		_readonlyMap = new ReadonlyMap();
-		
+
 		for (ChangeableNode nd : _changeAbleMap.Nodes)
 		{
 			_readonlyMap.Nodes.add(nd);

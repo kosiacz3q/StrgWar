@@ -7,6 +7,7 @@ import java.util.List;
 import StrgWar.core.IPlayerColorProvider;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 public class DrawingManager
 {
@@ -17,28 +18,31 @@ public class DrawingManager
 		_drawable = Collections.synchronizedList(new ArrayList<IDrawable>());
 		_playerColorProvider = playerColorProvider;
 	}
-	
+
 	public void Register(IDrawable drawwable)
 	{
 		_drawable.add(drawwable);
 	}
-	
-	public void RemoveElement(IDrawable drawwable) {
+
+	public void RemoveElement(IDrawable drawwable)
+	{
 		_drawable.remove(drawwable);
 	}
-	
+
 	public void draw(long now)
 	{
+		_gc.setFill(Color.WHITE);
 		_gc.clearRect(0, 0, 900, 600);
-		
-		synchronized(_drawable) {
-		for (IDrawable drawable : _drawable)
-			drawable.Draw(_gc, _root, _playerColorProvider, now);
+
+		synchronized (_drawable)
+		{
+			for (IDrawable drawable : _drawable)
+				drawable.Draw(_gc, _root, _playerColorProvider, now);
 		}
 	}
-	
+
 	private final Pane _root;
 	private final GraphicsContext _gc;
 	private final List<IDrawable> _drawable;
-	private final IPlayerColorProvider _playerColorProvider;	
+	private final IPlayerColorProvider _playerColorProvider;
 }

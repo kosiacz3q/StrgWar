@@ -25,7 +25,7 @@ public class SharedDataHandler implements ISharedDataHandler
 	{
 		_player2Name = name;
 	}
-	
+
 	@Override
 	public String GetPlayer1Color()
 	{
@@ -49,9 +49,22 @@ public class SharedDataHandler implements ISharedDataHandler
 	{
 		_player2Color = color;
 	}
-	
+
+	@Override
+	public String GetMapSource()
+	{
+		return _mapSource;
+	}
+
+	public void SetMapSource(String map)
+	{
+		_mapSource = map;
+	}
+
+	private String _mapSource;
 	private String _player1Name;
 	private String _player2Name;
 	private String _player1Color;
 	private String _player2Color;
+
 }

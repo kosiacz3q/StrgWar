@@ -2,9 +2,9 @@ package StrgWar.stage;
 
 public abstract class Stage
 {
-	public abstract void OnStart();
+	public abstract void OnStart() throws Exception;
 
-	public abstract void OnExit();
+	public abstract void OnExit() throws Exception;
 
 	public abstract String GetName();
 

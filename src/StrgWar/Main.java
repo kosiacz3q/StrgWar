@@ -1,6 +1,5 @@
 package StrgWar;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -25,17 +24,13 @@ public class Main extends Application
 		{
 			_stageManager = new StageManager();
 			
-			String rootDir = new File(".").getCanonicalPath();
-			File subDir = new File(rootDir, "/resources/maps");
-			File fXmlFile = new File(subDir, "map0.xml");
-			
 			ISharedDataHandler sharedDataHandler = new SharedDataHandler();
 			
 			AbstractController.SetStageSetter(_stageManager);
 			AbstractController.SetSharedDataHandler(sharedDataHandler);
 			
 			_stageManager.RegisterStage(new MenuStage(primaryStage) );
-			_stageManager.RegisterStage(new GameStage(_stageManager, primaryStage , fXmlFile.getAbsolutePath(), sharedDataHandler));
+			_stageManager.RegisterStage(new GameStage(_stageManager, primaryStage, sharedDataHandler));
 
 			_stageManager.SetStage("MENU");
 		}

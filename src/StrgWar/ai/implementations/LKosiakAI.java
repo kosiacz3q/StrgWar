@@ -36,9 +36,11 @@ public class LKosiakAI extends AbstractActor
 			for (ReadonlyNode node : _map.Nodes)
 			{
 				//sprawdzamy czy to nie s¹ przypadkiem nasze jednostki
-				if (nodeWithMinCountOfEnemy.GetOccupantName().compareTo(_name) != 0 )
+				if (node.GetOccupantName().compareTo(_name) != 0 )
+					
 					//pobieramy iloœc jednostek z wierzcho³ka 
-					if (nodeWithMinCountOfEnemy.GetOccupantArmySize() > node.GetOccupantArmySize())
+					if (nodeWithMinCountOfEnemy.GetOccupantArmySize() > node.GetOccupantArmySize()
+						|| nodeWithMinCountOfEnemy.GetOccupantName().compareTo(_name) == 0)
 					{
 						nodeWithMinCountOfEnemy = node;
 					}
@@ -49,9 +51,10 @@ public class LKosiakAI extends AbstractActor
 			for (ReadonlyNode node : _map.Nodes)
 			{
 				//szukamy naszego miasta
-				if (nodeWithMaxOfOurUnits.GetOccupantName().compareTo(_name) == 0 )
+				if (node.GetOccupantName().compareTo(_name) == 0)
 					//pobieramy iloœc jednostek z wierzcho³ka 
-					if (nodeWithMaxOfOurUnits.GetOccupantArmySize() < node.GetOccupantArmySize())
+					if (nodeWithMaxOfOurUnits.GetOccupantArmySize() < node.GetOccupantArmySize()
+						|| nodeWithMaxOfOurUnits.GetOccupantName().compareTo(_name) != 0)
 					{
 							nodeWithMaxOfOurUnits = node;
 					}

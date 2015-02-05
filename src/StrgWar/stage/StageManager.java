@@ -22,15 +22,24 @@ public class StageManager implements IStageSetter
 
 	public void SetStage(String name)
 	{
-		if (_actualStageName.length() != 0)
+		try
 		{
-			_stages.get(_actualStageName).OnExit();
+			if (_actualStageName.length() != 0)
+			{
+				_stages.get(_actualStageName).OnExit();
+			}
+
+			_stages.get(name).OnStart();
+
+			_actualStageName = name;
+
 		}
-		
-		_stages.get(name).OnStart();
-		_actualStageName = name;
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
-	
+
 	private HashMap<String, Stage> _stages;
 	private String _actualStageName;
 }
