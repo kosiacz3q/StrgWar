@@ -1,0 +1,23 @@
+<map>
+	<node name="bac1" occupant="player1" startSize="50" unitsPerSecond="2" x="120" y="120" r="100"></node>
+	<node name="bac2" occupant="player2" startSize="50" unitsPerSecond="2" x="780" y="480" r="100"></node>
+	
+	<node name="bac3" occupant="neutral" startSize="0" unitsPerSecond="2" x="270" y="40" r="30"></node>
+	<node name="bac4" occupant="neutral" startSize="0" unitsPerSecond="2" x="260" y="180" r="30"></node>
+	<node name="bac5" occupant="neutral" startSize="0" unitsPerSecond="2" x="180" y="260" r="30"></node>
+	<node name="bac6" occupant="neutral" startSize="0" unitsPerSecond="2" x="40" y="270" r="30"></node>
+	
+	<node name="bac7" occupant="neutral" startSize="0" unitsPerSecond="2" x="630" y="560" r="30"></node>
+	<node name="bac8" occupant="neutral" startSize="0" unitsPerSecond="2" x="640" y="420" r="30"></node>
+	<node name="bac9" occupant="neutral" startSize="0" unitsPerSecond="2" x="720" y="340" r="30"></node>
+	<node name="bac10" occupant="neutral" startSize="0" unitsPerSecond="2" x="860" y="330" r="30"></node>
+
+	<node name="bac11" occupant="neutral" startSize="0" unitsPerSecond="2" x="690" y="70" r="50"></node>
+	<node name="bac12" occupant="neutral" startSize="0" unitsPerSecond="2" x="670" y="170" r="20"></node>
+	<node name="bac13" occupant="neutral" startSize="0" unitsPerSecond="2" x="750" y="140" r="20"></node>
+	
+	<node name="bac14" occupant="neutral" startSize="0" unitsPerSecond="2" x="140" y="510" r="20"></node>
+	<node name="bac15" occupant="neutral" startSize="0" unitsPerSecond="2" x="160" y="560" r="20"></node>
+	<node name="bac16" occupant="neutral" startSize="0" unitsPerSecond="2" x="200" y="440" r="20"></node>
+	<node name="bac17" occupant="neutral" startSize="0" unitsPerSecond="2" x="70" y="520" r="40"></node>
+</map>

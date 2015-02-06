@@ -78,13 +78,16 @@ public class ReadonlyNode implements IDrawable
 
 		for (ReadonlyNodeArcs arc : _arcs)
 		{
-			arc.draw(gc, playerColorProvider.GetPlayerColor(_occupantName));
+			if(_occupantName.compareTo("neutral") == 0)
+				arc.draw(gc, Color.rgb(192, 192, 192));
+			else
+				arc.draw(gc, playerColorProvider.GetPlayerColor(_occupantName));
 		}
 		gc.setFont(Font.font("Calibri", 30));
 		gc.setFill(Color.BLACK);
 		gc.setTextAlign(TextAlignment.CENTER);
 
-		gc.fillText(Integer.toString(_occupantSize), _position.getX() + _radius, _position.getY() + _radius + 12);
+		gc.fillText(Integer.toString(_occupantSize), _position.getX(), _position.getY() + 12);
 	}
 
 	public int RandomInt(int min, int max)
@@ -114,7 +117,7 @@ public class ReadonlyNode implements IDrawable
 		int arcExtent = RandomInt(10, 360 - angle);
 		ReadonlyNodeArcs.Direction direction = (RandomInt(0, 1) == 0) ? ReadonlyNodeArcs.Direction.LEFT : ReadonlyNodeArcs.Direction.RIGHT;
 
-		final ReadonlyNodeArcs arc = new ReadonlyNodeArcs(new Point2D(_position.getX() + (_radius - r), _position.getY() + (_radius - r)),
+		final ReadonlyNodeArcs arc = new ReadonlyNodeArcs(new Point2D(_position.getX() - _radius + (_radius - r), _position.getY() - _radius + (_radius - r)),
 				r, angle, arcExtent, lineWidth, direction);
 
 		return arc;
