@@ -50,9 +50,9 @@ public class GameUnit implements IUpdateable, IDrawable
 
 		if (!IsTravelComplete())
 		{
-			double x = (_origin.GetPosition().getX() + _origin.GetRadius()) + (_traveled / _roadLength)
+			double x = _origin.GetPosition().getX() + (_traveled / _roadLength)
 					* (_target.GetPosition().getX() - _origin.GetPosition().getX());
-			double y = (_origin.GetPosition().getY() + _origin.GetRadius()) + (_traveled / _roadLength)
+			double y = _origin.GetPosition().getY() + (_traveled / _roadLength)
 					* (_target.GetPosition().getY() - _origin.GetPosition().getY());
 
 			gc.setStroke(playerColorProvider.GetPlayerColor(Owner));
