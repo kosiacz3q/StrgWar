@@ -9,8 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -33,7 +35,7 @@ public class BestResults {
 		dialogStage.initModality(Modality.WINDOW_MODAL);
 		dialogStage.initOwner(_primaryStage);
 		BorderPane root = new BorderPane();
-		Scene scene = new Scene(root, 300, 300);
+		Scene scene = new Scene(root, 450, 300);
 		
 		GridPane pane = new GridPane();
 		pane.setHgap(5);
@@ -44,19 +46,18 @@ public class BestResults {
 
 		Button resetResults = new Button("Reset results");
 		resetResults.setOnAction(new EventHandler<ActionEvent>() {
-
 			@Override
 			public void handle(ActionEvent event) {
 				try {
 					_management.ResetResults();
 					SetPane(pane);
-					pane.addRow(pane.getChildren().size(), resetResults);
+					pane.add(resetResults, 0, pane.getChildren().size(), 1, 1);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-		pane.addRow(counter, resetResults);
+		pane.add(resetResults, 0, pane.getChildren().size(), 1, 1);
         root.setTop(pane);
 
 		dialogStage.setScene(scene);
@@ -66,17 +67,34 @@ public class BestResults {
 	
 	private int SetPane(GridPane pane) {
 		pane.getChildren().clear();
+		pane.getColumnConstraints().add(new ColumnConstraints(200)); 
+		pane.getColumnConstraints().add(new ColumnConstraints(100));
+		pane.getColumnConstraints().add(new ColumnConstraints(100));
 		
-		Label label = new Label ("Best results");
+		Label label = new Label("Best results");
 		label.setFont(new Font("Cambria", 32));
-		pane.addRow(0, label);
+		pane.add(label, 0, 0, 3, 1);
+		pane.add(new Label(), 0, 1);
+		
+		label = new Label("Player");
+		label.setFont(Font.font("Cambria", FontWeight.BOLD, 16));
+		pane.add(label, 0, 2);
+		
+		label = new Label("Games\nplayed");
+		label.setFont(Font.font("Cambria", FontWeight.BOLD, 16));
+		pane.add(label, 1, 2);
+		
+		label = new Label("Games\nwon");
+		label.setFont(Font.font("Cambria", FontWeight.BOLD, 16));
+		pane.add(label, 2, 2);
 		
 		List<Result> results = _management.GetResults();
-		int counter = 1;
+		int counter = 3;
 		for (Result result : results)
 		{
-			label = new Label(result.name + " " + result.gamesPlayed + " " + result.gamesWon);
-			pane.addRow(counter, label);
+			pane.add(new Label(result.name), 0, counter);
+			pane.add(new Label(result.gamesPlayed), 1, counter);
+			pane.add(new Label(result.gamesWon), 2, counter);
 			counter++;
 		}
 		

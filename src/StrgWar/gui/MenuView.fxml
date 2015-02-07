@@ -30,16 +30,16 @@
 				<RowConstraints maxHeight="368.0" minHeight="10.0" prefHeight="297.0" vgrow="SOMETIMES" />
 				<RowConstraints maxHeight="249.0" minHeight="0.0" prefHeight="9.0" vgrow="SOMETIMES" />
 				<RowConstraints maxHeight="276.0" minHeight="10.0" prefHeight="246.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="145.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="145.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+           		<RowConstraints maxHeight="145.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+            	<RowConstraints maxHeight="145.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+            	<RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
 			</rowConstraints>
 			<children>
-				<Button fx:id="btnResults" contentDisplay="CENTER" graphicTextGap="10.0" lineSpacing="3.0" maxWidth="1.7976931348623157E308" minWidth="-Infinity" style="-fx-background-color: INDIANRED;" text="Results" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
+				<Button fx:id="btnResults" contentDisplay="CENTER" graphicTextGap="10.0" lineSpacing="3.0" maxWidth="1.7976931348623157E308" minWidth="-Infinity" style="-fx-background-color: #F6B7B7" text="Results" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.rowIndex="9" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="20.0" />
                </GridPane.margin></Button>
-				<Button fx:id="btnStart" contentDisplay="CENTER" graphicTextGap="10.0" lineSpacing="3.0" maxWidth="1.7976931348623157E308" minWidth="-Infinity" style="-fx-background-color: INDIANRED;" text="Start" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.rowIndex="6" GridPane.valignment="BOTTOM">
+				<Button fx:id="btnStart" contentDisplay="CENTER" graphicTextGap="10.0" lineSpacing="3.0" maxWidth="1.7976931348623157E308" minWidth="-Infinity" style="-fx-background-color: INDIANRED;" text="Start" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.rowIndex="10" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="20.0" />
                </GridPane.margin></Button>
