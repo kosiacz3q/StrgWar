@@ -5,16 +5,20 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javafx.application.Platform;
+import StrgWar.bestresults.BestResults;
+import StrgWar.core.ISharedDataHandler;
 import StrgWar.gui.DrawingManager;
 import StrgWar.map.GameUnit;
 import StrgWar.map.ISentUnitsManager;
 import StrgWar.map.changeable.ChangeableMap;
 import StrgWar.map.changeable.ChangeableNode;
 import StrgWar.map.changeable.IChangeableMapProvider;
+import StrgWar.map.readonly.ReadonlyNode;
 
 public class GameLogicExecutor implements ICommandExecutor, ISentUnitsManager, Runnable
 {
-	public GameLogicExecutor(IChangeableMapProvider changeableMapProvider, DrawingManager drawingManager)
+	public GameLogicExecutor(IChangeableMapProvider changeableMapProvider, DrawingManager drawingManager, ISharedDataHandler sharedDataHandler, BestResults bestResults)
 	{
 		_drawingManager = drawingManager;
 		
@@ -27,6 +31,10 @@ public class GameLogicExecutor implements ICommandExecutor, ISentUnitsManager, R
 		_isGameStarted = false;
 		
 		_pendingUnits = new ArrayList<GameUnit>();
+		
+		_sharedDataHandler = sharedDataHandler;
+		
+		_bestResults = bestResults;
 	}
 	
 	public void StartGame()
@@ -37,6 +45,35 @@ public class GameLogicExecutor implements ICommandExecutor, ISentUnitsManager, R
 	public void StopGame()
 	{
 		_isGameStarted = false;
+	}
+	
+	private boolean IsGameEnded()
+	{
+		ReadonlyNode n = _map.Nodes.get(0);
+		
+		for (ReadonlyNode node : _map.Nodes)
+		{
+			if(n.GetOccupantName().compareTo(node.GetOccupantName()) != 0)
+				return false;
+		}
+		
+		return true;
+	}
+	
+	private String GetWinnersName()
+	{
+		if(_map.Nodes.get(0).GetOccupantName().compareTo("player1") == 0)
+			return _sharedDataHandler.GetPlayer1Name();
+		else
+			return _sharedDataHandler.GetPlayer2Name();
+	}
+	
+	private String GetLosersName()
+	{
+		if(_map.Nodes.get(0).GetOccupantName().compareTo("player1") == 0)
+			return _sharedDataHandler.GetPlayer2Name();
+		else
+			return _sharedDataHandler.GetPlayer1Name();
 	}
 	
 	@Override
@@ -120,7 +157,7 @@ public class GameLogicExecutor implements ICommandExecutor, ISentUnitsManager, R
 	@Override
 	public void run()
 	{
-		while(true)
+		while(!IsGameEnded())
 		{
 			//_pendingUnits.forEach(g -> g.Update(_sleepTime));
 
@@ -150,7 +187,15 @@ public class GameLogicExecutor implements ICommandExecutor, ISentUnitsManager, R
 				break;
 			}
 		}
+		StopGame();
 		
+		Platform.runLater(new Runnable() {
+	        @Override
+	        public void run() {
+	        	_bestResults.SetGameResults(GetWinnersName(), GetLosersName());
+	    		_bestResults.DisplayPopup();
+	        }
+	   });
 	}
 	
 	private final ReentrantLock _commandExecuteLock;
@@ -158,6 +203,8 @@ public class GameLogicExecutor implements ICommandExecutor, ISentUnitsManager, R
 	private boolean _isGameStarted;
 	private ArrayList<GameUnit> _pendingUnits;
 	private DrawingManager _drawingManager;
+	private ISharedDataHandler _sharedDataHandler;
+	private BestResults _bestResults;
 	private int _sleepTime = 1000;
 	
 	private static final Logger _logger = Logger.getLogger( GameLogicExecutor.class.getName() );

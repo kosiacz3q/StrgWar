@@ -12,6 +12,7 @@ import StrgWar.ai.implementations.HDmowskaAI;
 import StrgWar.ai.implementations.LKosiakAI;
 import StrgWar.ai.implementations.KSzczepanskiAI;
 import StrgWar.ai.implementations.PlayerActor;
+import StrgWar.bestresults.BestResults;
 import StrgWar.core.IPlayerColorProvider;
 import StrgWar.core.ISharedDataHandler;
 import StrgWar.core.PlayerColorProvider;
@@ -46,6 +47,8 @@ public class GameStage extends StrgWar.stage.Stage
 		_root = root;
 
 		_sharedDataHandler = sharedDataHandler;
+		
+		_bestResults = new BestResults(primaryStage);
 	}
 
 	@Override
@@ -60,7 +63,7 @@ public class GameStage extends StrgWar.stage.Stage
 
 		_drawingManager = new DrawingManager(_gc, _root, _playerColorProvider);
 
-		_gameLogicExecutor = new GameLogicExecutor(_mffp, _drawingManager);
+		_gameLogicExecutor = new GameLogicExecutor(_mffp, _drawingManager, _sharedDataHandler, _bestResults);
 
 		_threads = new ArrayList<Thread>();
 
@@ -148,4 +151,7 @@ public class GameStage extends StrgWar.stage.Stage
 	private ISharedDataHandler _sharedDataHandler;
 
 	private ILineDrawer _playerLineDrawer;
+	
+	private BestResults _bestResults;
+	
 }

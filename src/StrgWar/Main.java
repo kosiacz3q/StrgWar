@@ -8,6 +8,7 @@ import java.util.logging.SimpleFormatter;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import StrgWar.bestresults.BestResults;
 import StrgWar.controller.AbstractController;
 import StrgWar.core.ISharedDataHandler;
 import StrgWar.core.SharedDataHandler;
@@ -28,6 +29,7 @@ public class Main extends Application
 			
 			AbstractController.SetStageSetter(_stageManager);
 			AbstractController.SetSharedDataHandler(sharedDataHandler);
+			AbstractController.SetStage(primaryStage);
 			
 			_stageManager.RegisterStage(new MenuStage(primaryStage) );
 			_stageManager.RegisterStage(new GameStage(_stageManager, primaryStage, sharedDataHandler));

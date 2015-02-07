@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import StrgWar.bestresults.BestResults;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -45,11 +46,13 @@ public class MenuStageController extends AbstractController
 	@FXML
 	private Button btnStart;
 	
+	@FXML
+	private Button btnResults;
+	
 	private ObservableList<String> colorsObservableList = FXCollections.observableArrayList();
 
 	public MenuStageController() throws IOException
 	{
-		
 		algorithm1Data.add("[AI] Kosiak");
 		algorithm1Data.add("[AI] Dmowska");
 		algorithm1Data.add("[AI] Szczepañski");
@@ -182,6 +185,12 @@ public class MenuStageController extends AbstractController
 				
 				_stageSetter.SetStage("GAME");
 			}
+		});
+		
+		btnResults.setOnAction((event) ->
+		{
+			BestResults bestResults = new BestResults(GetStage());
+			bestResults.DisplayPopup();
 		});
 	}
 	

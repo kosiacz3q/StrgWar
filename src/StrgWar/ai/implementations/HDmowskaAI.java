@@ -75,13 +75,16 @@ public class HDmowskaAI extends AbstractActor {
 			}
 
 			// wykonanie ruchu
-			//_logger.log(Level.INFO, "units from " + sender.GetMapElementName()
-			//		+ " to " + receiver.GetMapElementName());
-			_commandExecutor.ExecuteCommand(this, new StartSendingUnits(
-					sender.GetMapElementName(), // sk¹d
-					receiver.GetMapElementName())); // dok¹d
+			// _logger.log(Level.INFO, "units from " +
+			// sender.GetMapElementName()
+			// + " to " + receiver.GetMapElementName());
+			if (sender != null && receiver != null) {
+				_commandExecutor.ExecuteCommand(this, new StartSendingUnits(
+						sender.GetMapElementName(), // sk¹d
+						receiver.GetMapElementName())); // dok¹d
 
-			moveCounter++;
+				moveCounter++;
+			}
 
 			try {
 				Thread.sleep(100);
