@@ -31,21 +31,24 @@ public class HDmowskaAI extends AbstractActor {
 
 			sender = GetMyBiggestNode();
 
-			if (GetNeutralNodesCount() > 0)
-				receiver = GetClosestNeutralNode(sender);
-			else {
-				if (_lastAttackedNode != null
-						&& _lastAttackedNode.GetOccupantName().compareTo(_name) != 0) {
-					receiver = _lastAttackedNode;
+			if (sender != null) {
+				if (GetNeutralNodesCount() > 0)
+					receiver = GetClosestNeutralNode(sender);
+				else {
+					if (_lastAttackedNode != null
+							&& _lastAttackedNode.GetOccupantName().compareTo(
+									_name) != 0) {
+						receiver = _lastAttackedNode;
 
-					ReadonlyNode tmp = GetCloserAndSmallerOpponentNode(sender,
-							receiver);
-					if (tmp != null)
-						receiver = tmp;
-				} else {
-					receiver = GetSmallestOpponentNode();
-					if(receiver != null)
-						sender = GetMyClosestNode(receiver);
+						ReadonlyNode tmp = GetCloserAndSmallerOpponentNode(
+								sender, receiver);
+						if (tmp != null)
+							receiver = tmp;
+					} else {
+						receiver = GetSmallestOpponentNode();
+						if (receiver != null)
+							sender = GetMyClosestNode(receiver);
+					}
 				}
 			}
 

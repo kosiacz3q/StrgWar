@@ -11,6 +11,7 @@ import StrgWar.ai.GameLogicExecutor;
 import StrgWar.ai.implementations.HDmowskaAI;
 import StrgWar.ai.implementations.LKosiakAI;
 import StrgWar.ai.implementations.KSzczepanskiAI;
+import StrgWar.ai.implementations.PTrawinskiAI;
 import StrgWar.ai.implementations.PlayerActor;
 import StrgWar.bestresults.BestResults;
 import StrgWar.core.IPlayerColorProvider;
@@ -108,9 +109,10 @@ public class GameStage extends StrgWar.stage.Stage
 				return new Thread(new HDmowskaAI(_gameLogicExecutor, _mffp, playerName));
 			case "[ai] szczepañski":
 				return new Thread(new KSzczepanskiAI(_gameLogicExecutor, _mffp, playerName));
+			case "[ai] trawiñski":
+				return new Thread(new PTrawinskiAI(_gameLogicExecutor, _mffp, playerName));
 			default:
-				return null; // TODO: dodaæ case'y dla pozostalych sztucznych
-								// inteligencji
+				return null;
 		}
 	}
 
