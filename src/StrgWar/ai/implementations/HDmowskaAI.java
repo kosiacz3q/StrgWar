@@ -1,5 +1,7 @@
 package StrgWar.ai.implementations;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,6 +20,7 @@ public class HDmowskaAI extends AbstractActor {
 
 		_name = name;
 		_map = readonlyMapProvider.GetReadOnlyMap();
+		_alreadySending = new ArrayList<ReadonlyNode>();
 	}
 
 	@Override
@@ -29,30 +32,32 @@ public class HDmowskaAI extends AbstractActor {
 			ReadonlyNode sender = null;
 			ReadonlyNode receiver = null;
 
-			sender = GetMyBiggestNode();
-
-			if (sender != null) {
-				if (GetNeutralNodesCount() > 0)
-					receiver = GetClosestNeutralNode(sender);
-				else {
-					if (_lastAttackedNode != null
-							&& _lastAttackedNode.GetOccupantName().compareTo(
-									_name) != 0) {
-						receiver = _lastAttackedNode;
-
-						ReadonlyNode tmp = GetCloserAndSmallerOpponentNode(
-								sender, receiver);
-						if (tmp != null)
-							receiver = tmp;
-					} else {
-						receiver = GetSmallestOpponentNode();
-						if (receiver != null)
-							sender = GetMyClosestNode(receiver);
-					}
+			if (_alreadySending != null) {
+				Iterator<ReadonlyNode> i = _alreadySending.iterator();
+				while (i.hasNext()) {
+					ReadonlyNode node = i.next();
+					if (node.GetOccupantName().compareTo(_name) != 0)
+						i.remove();
 				}
 			}
 
-			_lastAttackedNode = receiver;
+			if (GetNeutralNodesCount() > 0) {
+				sender = GetMyNodeWhichIsNotSending();
+				if (sender != null)
+					receiver = GetClosestNeutralNode(sender);
+				else {
+					sender = GetMyBiggestNode();
+					if(sender != null)
+						receiver = GetClosestNeutralNode(sender);
+				}
+			} else {
+				receiver = GetSmallestOpponentNode();
+				if (receiver != null) {
+					sender = GetMyClosestNodeWhichIsNotSending(receiver);
+					if (sender == null)
+						sender = GetMyClosestNode(receiver);
+				}
+			}
 
 			// wykonanie ruchu
 			// _logger.log(Level.INFO, "units from " +
@@ -60,6 +65,7 @@ public class HDmowskaAI extends AbstractActor {
 			// + " to " + receiver.GetMapElementName());
 
 			if (sender != null && receiver != null) {
+				_alreadySending.add(sender);
 				_commandExecutor.ExecuteCommand(this,
 						new StartSendingUnits(sender.GetMapElementName(),
 								receiver.GetMapElementName()));
@@ -90,6 +96,22 @@ public class HDmowskaAI extends AbstractActor {
 		return n;
 	}
 
+	private ReadonlyNode GetMyClosestNodeWhichIsNotSending(ReadonlyNode anyNode) {
+		ReadonlyNode n = null;
+
+		for (ReadonlyNode node : _map.Nodes) {
+			if (node.GetOccupantName().compareTo(_name) == 0) {
+				if (n == null
+						|| node.GetPosition().distance(anyNode.GetPosition()) < n
+								.GetPosition().distance(anyNode.GetPosition())
+						&& !_alreadySending.contains(node))
+					n = node;
+			}
+		}
+
+		return n;
+	}
+
 	private ReadonlyNode GetMyClosestNode(ReadonlyNode anyNode) {
 		ReadonlyNode n = null;
 
@@ -105,59 +127,11 @@ public class HDmowskaAI extends AbstractActor {
 		return n;
 	}
 
-	private ReadonlyNode GetBiggestNeutralNode() {
-		ReadonlyNode n = null;
-
-		for (ReadonlyNode node : _map.Nodes) {
-			if (node.GetOccupantName().compareTo("neutral") == 0) {
-				if (n == null
-						|| node.GetOccupantArmySize() > n.GetOccupantArmySize())
-					n = node;
-			}
-		}
-
-		return n;
-	}
-
 	private ReadonlyNode GetClosestNeutralNode(ReadonlyNode sender) {
 		ReadonlyNode n = null;
 
 		for (ReadonlyNode node : _map.Nodes) {
 			if (node.GetOccupantName().compareTo("neutral") == 0) {
-				if (n == null
-						|| sender.GetPosition().distance(node.GetPosition()) < sender
-								.GetPosition().distance(n.GetPosition()))
-					n = node;
-			}
-		}
-
-		return n;
-	}
-
-	private ReadonlyNode GetCloserAndSmallerOpponentNode(ReadonlyNode sender,
-			ReadonlyNode currentReceiver) {
-		ReadonlyNode n = null;
-
-		for (ReadonlyNode node : _map.Nodes) {
-			if (node.GetOccupantName().compareTo("neutral") != 0
-					&& node.GetOccupantName().compareTo(_name) != 0) {
-				if (sender.GetPosition().distance(node.GetPosition()) < sender
-						.GetPosition().distance(currentReceiver.GetPosition())
-						&& node.GetOccupantArmySize() < currentReceiver
-								.GetOccupantArmySize())
-					return node;
-			}
-		}
-
-		return n;
-	}
-
-	private ReadonlyNode GetClosestOpponentNode(ReadonlyNode sender) {
-		ReadonlyNode n = null;
-
-		for (ReadonlyNode node : _map.Nodes) {
-			if (node.GetOccupantName().compareTo("neutral") != 0
-					&& node.GetOccupantName().compareTo(_name) != 0) {
 				if (n == null
 						|| sender.GetPosition().distance(node.GetPosition()) < sender
 								.GetPosition().distance(n.GetPosition()))
@@ -182,6 +156,16 @@ public class HDmowskaAI extends AbstractActor {
 		return n;
 	}
 
+	private ReadonlyNode GetMyNodeWhichIsNotSending() {
+		for (ReadonlyNode node : _map.Nodes) {
+			if (node.GetOccupantName().compareTo(_name) == 0
+					&& !_alreadySending.contains(node))
+				return node;
+		}
+
+		return null;
+	}
+
 	private int GetNeutralNodesCount() {
 		int amount = 0;
 
@@ -193,39 +177,12 @@ public class HDmowskaAI extends AbstractActor {
 		return amount;
 	}
 
-	private int GetOpponentNodesCount() {
-		int amount = 0;
-
-		for (ReadonlyNode node : _map.Nodes) {
-			if (node.GetOccupantName().compareTo(_name) != 0
-					&& node.GetOccupantName().compareTo("neutral") != 0)
-				amount++;
-		}
-
-		return amount;
-	}
-
-	private int GetMyNodesCount() {
-		int amount = 0;
-
-		for (ReadonlyNode node : _map.Nodes) {
-			if (node.GetOccupantName().compareTo(_name) == 0)
-				amount++;
-		}
-
-		return amount;
-	}
-
-	private int GetNodesCount() {
-		return _map.Nodes.size();
-	}
-
 	@Override
 	public final String GetName() {
 		return _name;
 	}
 
-	private ReadonlyNode _lastAttackedNode = null;
+	private ArrayList<ReadonlyNode> _alreadySending;
 	private final String _name;
 
 	private final ReadonlyMap _map;
