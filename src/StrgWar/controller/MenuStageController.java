@@ -89,7 +89,7 @@ public class MenuStageController extends AbstractController
 		algorithm2.setItems(algorithm2Data);
 		
 		map.setItems(maps);
-		map.setValue(maps.get(0));
+		map.setValue(maps.get(1));
 		
 		algorithm1.setValue(algorithm1Data.get(0));
 		algorithm2.setValue(algorithm2Data.get(1));
