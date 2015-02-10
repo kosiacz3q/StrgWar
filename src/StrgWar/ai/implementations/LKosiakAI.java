@@ -1,5 +1,7 @@
 package StrgWar.ai.implementations;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,49 +29,67 @@ public class LKosiakAI extends AbstractActor
 		_logger.log(Level.INFO, "LKosiak AI starts");
 		boolean isInterrupted = false;
 		
+		
+		ArrayList<ReadonlyNode> usedNodes = new ArrayList<ReadonlyNode>();
+		ArrayList<ReadonlyNode> enemyNodes = new ArrayList<ReadonlyNode>();
+		
 		//PROSTE AI wysy³aj¹ce jednostki z naczego najwiêkszego miasta do najmniejszego nie naszego na mapie
-		// zak³ada ¿e istnieje conamniej jedno nasze miasto i jedno przeciwnika
+		
 		while (!isInterrupted)
-		{	
-			ReadonlyNode nodeWithMinCountOfEnemy = _map.Nodes.get(0);
+		{
 			
-			for (ReadonlyNode node : _map.Nodes)
+			enemyNodes.clear();
+			///listujemy wrogie miasta
+			for (ReadonlyNode target : _map.Nodes)
 			{
 				//sprawdzamy czy to nie s¹ przypadkiem nasze jednostki
-				if (node.GetOccupantName().compareTo(_name) != 0 )
-					
-					//pobieramy iloœc jednostek z wierzcho³ka 
-					if (nodeWithMinCountOfEnemy.GetOccupantArmySize() > node.GetOccupantArmySize()
-						|| nodeWithMinCountOfEnemy.GetOccupantName().compareTo(_name) == 0)
-					{
-						nodeWithMinCountOfEnemy = node;
-					}
+				if (target.GetOccupantName().compareTo(_name) != 0 )
+				{
+					enemyNodes.add(target);
+				}
 			}
 			
-			ReadonlyNode nodeWithMaxOfOurUnits = _map.Nodes.get(0);
+			//sortujemy rosnaco wzgledem ilosci jednostek
+			enemyNodes.sort(new Comparator<ReadonlyNode>() {
+
+				@Override
+				public int compare(ReadonlyNode o1, ReadonlyNode o2)
+				{
+					return o1.GetOccupantArmySize() - o2.GetOccupantArmySize();
+				}
+			});
+
 			
-			for (ReadonlyNode node : _map.Nodes)
+			usedNodes.clear();
+			
+			//wysylamy tyle ile trzeba zeby przejac
+			for (ReadonlyNode target : enemyNodes)
 			{
-				//szukamy naszego miasta
-				if (node.GetOccupantName().compareTo(_name) == 0)
-					//pobieramy iloœc jednostek z wierzcho³ka 
-					if (nodeWithMaxOfOurUnits.GetOccupantArmySize() < node.GetOccupantArmySize()
-						|| nodeWithMaxOfOurUnits.GetOccupantName().compareTo(_name) != 0)
+				int enemyCount = 2 * target.GetOccupantArmySize();
+				
+				
+				for (ReadonlyNode node : _map.Nodes)
+				{
+					//szukamy naszego miasta
+					if (usedNodes.indexOf(node) == -1 && node.GetOccupantName().compareTo(_name) == 0)
 					{
-							nodeWithMaxOfOurUnits = node;
+						usedNodes.add(node);
+						
+						enemyCount -= node.GetOccupantArmySize();
+						
+						_commandExecutor.ExecuteCommand(this, new StartSendingUnits(
+								node.GetMapElementName(), //sk¹d
+								target.GetMapElementName())); //dok¹d
+						
+						if (enemyCount < 0)
+							break;
 					}
+				}				
 			}
-			
 			
 			//wysy³amy jednostki 
-			_logger.log(Level.FINE, "units from " + nodeWithMaxOfOurUnits.GetMapElementName() + "(" + nodeWithMaxOfOurUnits.GetOccupantArmySize()  +")" + " to " + nodeWithMinCountOfEnemy.GetMapElementName() + "(" + nodeWithMinCountOfEnemy.GetOccupantArmySize() + ")");
-			
-			_commandExecutor.ExecuteCommand(this, new StartSendingUnits(
-													nodeWithMaxOfOurUnits.GetMapElementName(), //sk¹d
-													nodeWithMinCountOfEnemy.GetMapElementName())); //dok¹d
-			
-			//mo¿emy tak¿e ewentualnie kazaæ przestaæ wysy³aæ jednostki
-			//_commandExecutor.ExecuteCommand(this, new StopSendingCommand(nodeWithMaxOfOurUnits.GetMapElementName()));
+			//_logger.log(Level.FINE, "units from " + nodeWithMaxOfOurUnits.GetMapElementName() + "(" + nodeWithMaxOfOurUnits.GetOccupantArmySize()  +")" + " to " + nodeWithMinCountOfEnemy.GetMapElementName() + "(" + nodeWithMinCountOfEnemy.GetOccupantArmySize() + ")");
+		
 
 			try
 			{
